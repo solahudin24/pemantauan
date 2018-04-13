@@ -159,7 +159,7 @@
                                 <td>".$row['mengajar']."</td>
                                 <td>".$row['password']."</td>
                                 <td>
-                                <a href='#ubah' class='btn btn-default btn-small' id='custId' data-toggle='modal' data-id=".$row['nuptk']."><img src='images/icons/ubah.gif'></a></td>
+                                <a href='#edit_data' class='btn btn-default btn-small' id='custId' data-toggle='modal' data-id=".$row['nuptk']."><img src='images/icons/ubah.gif'></a></td>
                                 </td>
                                 <td>
                                 <a href='#hapus_data' class='btn btn-default btn-small' id='custId' data-toggle='modal' data-id=".$row['nuptk']."><img src='images/icons/hapus.gif'></a></td>
@@ -245,7 +245,7 @@
     </div>
 
     <!-- modal ubah -->
-	<div class="modal fade" id="ubah" tabindex="-1" role="dialog" aria-labelledby="ubah" aria-hidden="true">
+	<div class="modal fade" id="edit_data" tabindex="-1" role="dialog" aria-labelledby="ubah" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 
 		    <!-- Modal content-->
@@ -255,12 +255,12 @@
 		        <h4 class="modal-title">Ubah Data Guru</h4>
 		      </div>
 		    	<div class="modal-body">
-		        	<div class="fetched-data"></div>
+		        	<div class="hasil-data"></div>
 				</div>
 				<div class="modal-footer">
-				    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#konfirmasi2">Simpan</button>
-				    <button type="reset" class="btn btn-primary">Reset</button>
+				    
 				    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
 				</div>
 			</div>
 		</div>	
@@ -268,29 +268,30 @@
 
 	<!-- Modal Konfirmasi -->                                                    
     <div class="modal fade" id="konfirmasi2" role="dialog">
-    	<div class="modal-dialog">
+        <div class="modal-dialog">
 
-	        <!-- Modal content-->
-	        <div class="modal-content">
-	        	<div class="modal-header">
-		            <button type="button" class="close" data-dismiss="modal">&times;</button>
-		            <h4 class="modal-title">Konfirmasi</h4>
-	        	</div>
-		        <div class="modal-body">
-		         Apakah anda yakin ingin menyimpan data?
-		     	</div>
-			    <div class="modal-footer">
-			      <button type="submit" class="btn btn-primary">Ya</button>
-			      <button type="button" class="btn btn-default" data-dismiss="modal">batal</button>
-			    </div>
-    		</div>
-					</form>
-    	</div>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Konfirmasi</h4>
+                </div>
+                <div class="modal-body">
+                 Apakah anda yakin ingin menyimpan data?
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Ya</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">batal</button>
+                </div>
+            </div>
+                </form>      
+        </div>
     </div>
 
 
 
     <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="vendor/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
@@ -318,15 +319,15 @@
 
     <script type="text/javascript">
     $(document).ready(function(){
-        $('#ubah').on('show.bs.modal', function (e) {
-            var rowid = $(e.relatedTarget).data('nuptk');
+        $('#edit_data').on('show.bs.modal', function (e) {
+            var idx = $(e.relatedTarget).data('id'); //harus tetap id, jika tidak akan data tak akan terambil
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
                 type : 'post',
                 url : 'ubah.php',
-                data :  'rowid='+ rowid,
+                data :  'idx='+ idx,
                 success : function(data){
-                $('.fetched-data').html(data);//menampilkan data ke dalam modal
+                $('.hasil-data').html(data);//menampilkan data ke dalam modal
                 }
             });
          });
