@@ -9,14 +9,14 @@ if(!empty($_POST['nuptk']))
 	$password=$_POST['password'];
 	
 	$link=koneksi_db();
-	$query="insert into tb_guru (nuptk,nama,mengajar,password) values ('$nuptk','$nama','$mengajar',$password);";
+	$query="insert into tb_guru (nuptk,nama,tugas_mengajar,password) values ('$nuptk','$nama','$mengajar',$password);";
 	$res=mysqli_query($link,$query);
 		
 	if($res)
 	{ ?>
 		<script language="javascript">
             alert('Berhasil Disimpan');
-        	document.location.href="tampil_data_guru.php";
+        	document.location.href="tampil_guru.php";
     </script>
     <?php
 	}

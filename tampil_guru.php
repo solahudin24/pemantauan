@@ -156,7 +156,7 @@
                                 <td>".$no."</td>
                                 <td>".$row['nuptk']."</td>
                                 <td>".$row['nama']."</td>
-                                <td>".$row['mengajar']."</td>
+                                <td>".$row['tugas_mengajar']."</td>
                                 <td>".$row['password']."</td>
                                 <td>
                                 <a href='#edit_data' class='btn btn-default btn-small' id='custId' data-toggle='modal' data-id=".$row['nuptk']."><img src='images/icons/ubah.gif'></a></td>
@@ -284,7 +284,7 @@
                   <button type="button" class="btn btn-default" data-dismiss="modal">batal</button>
                 </div>
             </div>
-                </form>      
+<!--                </form>      -->
         </div>
     </div>
 
