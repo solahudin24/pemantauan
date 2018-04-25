@@ -18,6 +18,7 @@
 
 
     <!-- Bootstrap Core CSS -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->

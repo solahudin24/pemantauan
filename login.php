@@ -51,7 +51,7 @@ if ( $temp == "O" || $temp == "o" ) {
 		$_SESSION[ 's_nip' ] = $nip;
 		$_SESSION[ 's_kode_jabatan' ] = $kode_jabatan;
 		$_SESSION[ 's_id_kelas'] = $id_kelas;
-		echo( "<script> location.href ='home_admin.php';</script>" );
+		echo( "<script> location.href ='admin/home_admin.php';</script>" );
 	} else {
 		$_SESSION[ 's_pesan' ] = "Email atau Password Salah";
 		echo( "<script> location.href ='index.php';</script>" );

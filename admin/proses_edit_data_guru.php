@@ -1,32 +1,34 @@
-<body>
 <?php
-include "koneksi.php";
-if(!empty($_POST['nuptk']))
-{
-	$nuptk=$_POST['nuptk'];
-	$nama=$_POST['nama'];
-	$mengajar=$_POST['mengajar'];
-	$password=$_POST['password'];
-	
-	$link=koneksi_db();
-	$query="update tb_guru set nama='$nama', tugas_mengajar='$mengajar', password='$password' WHERE nuptk='$nuptk';";
-	$res=mysqli_query($link,$query);
-		
-	if($res)
-	{ ?>
-		<script language="javascript">
-            alert('Berhasil Disimpan');
-        	document.location.href="tampil_guru.php";
-    </script>
-    <?php
-	}
-	else
-	{
-		echo "<center><h1>Gagal Mengubah Data</h1><br>";
-		echo "Error : ".mysqli_error();
-		echo "<br> Kembali <br> <a href='tampil_guru.php'>Link ini</a></center>";
-	}
-	$link->close();
+include "../koneksi.php";
+$link = koneksi_db();
+$nuptk = $_POST[ 'nuptk' ];
+$nip = $_POST[ 'nip' ];
+$tempat_lahir = $_POST[ 'tempat_lahir' ];
+$tanggal_lahir = $_POST[ 'tanggal_lahir' ];
+$nama = $_POST[ 'nama' ];
+$password = $_POST[ 'password' ];
+
+
+$query = "update tb_guru set nip='$nip', nama='$nama', tempat_lahir='$tempat_lahir',tanggal_lahir='$tanggal_lahir', password='$password' WHERE nuptk='$nuptk';";
+$res = mysqli_query( $link, $query );
+
+if ( $res ) {
+	?>
+	<script language="javascript">
+		alert( 'Berhasil Disimpan!' );
+		document.location.href = "home_admin.php?tampil=guru";
+	</script>
+	<?php
+} else {
+	?>
+	<script language="javascript">
+		alert( 'Gagal mengubah data!' );
+		document.location.href = "home_admin.php?tampil=guru";
+	</script>
+	<?php
 }
+
+
+$link->close();
+
 ?>
-</body>

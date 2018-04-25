@@ -12,10 +12,10 @@
 -->
 
 <?php
-include "koneksi.php";
+require('../koneksi.php');
+$link = koneksi_db();
 if ( $_POST[ 'idx' ] ) {
 	$nuptk = $_POST[ 'idx' ];
-	$link = koneksi_db();
 	$query = "SELECT * FROM tb_guru WHERE nuptk = $nuptk";
 	$res = mysqli_query( $link, $query );
 	while ( $row = mysqli_fetch_assoc( $res ) ) {
@@ -26,23 +26,33 @@ if ( $_POST[ 'idx' ] ) {
 				<input type="text" class="form-control" name="nuptk" value="<?php echo $row['nuptk']; ?>">
 			</div>
 			<div class="form-group">
+				<label for="nip">NIP:</label>
+				<input type="text" class="form-control" name="nip" value="<?php echo $row['nip']; ?>">
+			</div>
+			<div class="form-group">
 				<label for="nama">Nama Guru:</label>
 				<input type="text" class="form-control" name="nama" value="<?php echo $row['nama']; ?>">
 			</div>
 			<div class="form-group">
-				<label for="mengajar">Mengajar:</label>
-				<input type="text" class="form-control" name="mengajar" value="<?php echo $row['tugas_mengajar']; ?>">
+				<label for="tempat_lahir">Tempat Lahir:</label>
+				<input type="text" class="form-control" name="tempat_lahir" value="<?php echo $row['tempat_lahir']; ?>">
+			</div>
+			<div class="form-group">
+				<label for="tanggal_lahir">Tanggal Lahir:</label>
+				<input type="date" class="form-control" name="tanggal_lahir" value="<?php echo $row['tanggal_lahir']; ?>">
 			</div>
 			<div class="form-group">
 				<label for="password">Password:</label>
 				<input type="text" class="form-control" name="password" value="<?php echo $row['password']; ?>">
 			</div>
 			<!--                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#konfirmasi2">Simpan</button>-->
-			<button type="submit" class="btn btn-primary" >Simpan</button>
+			<button type="submit" class="btn btn-primary">Simpan</button>
 			<button type="reset" class="btn btn-primary">Reset</button>
-</form>
+		</form>
 
 
 
-			<?php } }
+		<?php
+	}
+}
 ?>
