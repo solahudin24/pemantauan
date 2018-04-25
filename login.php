@@ -45,7 +45,7 @@ if ( $temp == "O" || $temp == "o" ) {
 			$id_kelas = $data['id_kelas'];
 		}
 
-		$_SESSION[ 's_nuptk' ] = $id_orangtua;
+		$_SESSION[ 's_nuptk' ] = $nuptk;
 		$_SESSION[ 's_password' ] = $password;
 		$_SESSION[ 's_nama' ] = $nama;
 		$_SESSION[ 's_nip' ] = $nip;

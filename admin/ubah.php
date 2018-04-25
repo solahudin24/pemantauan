@@ -14,7 +14,7 @@
 <?php
 require('../koneksi.php');
 $link = koneksi_db();
-if ( $_POST[ 'idx' ] ) {
+if (isset($_POST[ 'idx' ])  ) {
 	$nuptk = $_POST[ 'idx' ];
 	$query = "SELECT * FROM tb_guru WHERE nuptk = $nuptk";
 	$res = mysqli_query( $link, $query );
@@ -45,6 +45,39 @@ if ( $_POST[ 'idx' ] ) {
 				<label for="password">Password:</label>
 				<input type="text" class="form-control" name="password" value="<?php echo $row['password']; ?>">
 			</div>
+			<!--                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#konfirmasi2">Simpan</button>-->
+			<button type="submit" class="btn btn-primary">Simpan</button>
+			<button type="reset" class="btn btn-primary">Reset</button>
+		</form>
+
+
+
+		<?php
+	}
+}else if(isset($_POST['rowid'])){
+	$nis = $_POST[ 'rowid' ];
+	$query = "SELECT * FROM tb_siswa WHERE nis = $nis";
+	$res = mysqli_query( $link, $query );
+	while ( $row = mysqli_fetch_assoc( $res ) ) {
+		?>
+		<form action="proses_edit_data_siswa.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');">
+			<div class="form-group">
+				<label for="nis">NIS:</label>
+				<input type="text" class="form-control" name="nis" value="<?php echo $row['nis']; ?>">
+			</div>
+			<div class="form-group">
+				<label for="nama">Nama Siswa:</label>
+				<input type="text" class="form-control" name="nama" value="<?php echo $row['nama']; ?>">
+			</div>
+			<div class="form-group">
+				<label for="alamat">Alamat:</label>
+				<input type="text" class="form-control" name="alamat" value="<?php echo $row['alamat']; ?>">
+			</div>
+			<div class="form-group">
+				<label for="password">Password:</label>
+				<input type="text" class="form-control" name="password" value="<?php echo $row['password']; ?>">
+			</div>
+			
 			<!--                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#konfirmasi2">Simpan</button>-->
 			<button type="submit" class="btn btn-primary">Simpan</button>
 			<button type="reset" class="btn btn-primary">Reset</button>

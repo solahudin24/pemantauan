@@ -75,10 +75,10 @@
                                 <td>" . $row[ 'password' ] . "</td>
                                 <td>
 								<center>
-                                <a href='#edit_data' id='custId' data-toggle='modal' data-id=" . $row[ 'nuptk' ] . "><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>
+                                <a href='#edit_data' class='btn btn-default btn-small' id='custId' data-toggle='modal' data-id=" . $row[ 'nuptk' ] . "><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>
                                 
                                 
-                                <a href='proses_hapus_data_guru.php?nuptk=" . $row[ 'nuptk' ] . "' onClick='return confirm('Apakah anda yakin ingin menghapus data guru?');' id='custId' data-toggle='modal' data-id=" . $row[ 'nuptk' ] . "><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a></center>
+                                <a href='proses_hapus_data_guru.php?nuptk=" . $row[ 'nuptk' ] . "' class='btn btn-default btn-small' onClick='return confirm('Apakah anda yakin ingin menghapus data guru?');' id='custId' data-toggle='modal' data-id=" . $row[ 'nuptk' ] . "><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a></center>
                                 </td>
                                 </tr>";
 

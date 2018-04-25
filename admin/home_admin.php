@@ -19,6 +19,7 @@ require( '../header.php' );
                     <span class="icon-bar"></span>
                 </button>
 		
+
 			<a class="navbar-brand" href="home_admin.php">Administrator</a>
 		</div>
 		<!-- /.navbar-header -->
@@ -30,13 +31,14 @@ require( '../header.php' );
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
 			
+
 				<ul class="dropdown-menu dropdown-user">
 					<li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
 					</li>
 					<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
 					</li>
 					<li class="divider"></li>
-					<li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+					<li><a href="../logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 					</li>
 				</ul>
 				<!-- /.dropdown-user -->
@@ -73,10 +75,10 @@ require( '../header.php' );
 		$tampil = $_GET[ 'tampil' ];
 		if ( $tampil == 'guru' ) {
 			require( 'tampil_guru.php' );
+		} else if ( $tampil == 'siswa' ) {
+			require( 'tampil_siswa.php' );
 		}
-		//				else if($tampil == 'siswa'){
-		//						require('menu_siswa.php');
-		//					}else if($tampil == 'orangtua'){
+		//		else if($tampil == 'orangtua'){
 		//						require('menu_orangtua.php');
 		//					}else if($tampil == 'jabatan'){
 		//						require('menu_jabatan.php');
@@ -87,7 +89,7 @@ require( '../header.php' );
 		require( 'tampil_guru.php' );
 	}
 	?>
-	
+
 	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
 
 

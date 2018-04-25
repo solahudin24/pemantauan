@@ -18,7 +18,7 @@
 						<a href="home_admin.php?tampil=orangtua">Data Orangtua</a>
 					</li>
 					<li>
-						<a href="home_admin.php?tampil=jabatan">Data Jabatan</a>
+						<a  href="home_admin.php?tampil=jabatan">Data Jabatan</a>
 					</li>
 					<li>
 						<a href="home_admin.php?tampil=kelas">Data Kelas</a>
