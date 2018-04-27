@@ -23,23 +23,11 @@ if (isset($_POST[ 'idx' ])  ) {
 		<form action="proses_edit_data_guru.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');">
 			<div class="form-group">
 				<label for="nuptk">NUPTK:</label>
-				<input type="text" class="form-control" name="nuptk" value="<?php echo $row['nuptk']; ?>">
-			</div>
-			<div class="form-group">
-				<label for="nip">NIP:</label>
-				<input type="text" class="form-control" name="nip" value="<?php echo $row['nip']; ?>">
+				<input type="text" class="form-control" readonly name="nuptk" value="<?php echo $row['nuptk']; ?>">
 			</div>
 			<div class="form-group">
 				<label for="nama">Nama Guru:</label>
 				<input type="text" class="form-control" name="nama" value="<?php echo $row['nama']; ?>">
-			</div>
-			<div class="form-group">
-				<label for="tempat_lahir">Tempat Lahir:</label>
-				<input type="text" class="form-control" name="tempat_lahir" value="<?php echo $row['tempat_lahir']; ?>">
-			</div>
-			<div class="form-group">
-				<label for="tanggal_lahir">Tanggal Lahir:</label>
-				<input type="date" class="form-control" name="tanggal_lahir" value="<?php echo $row['tanggal_lahir']; ?>">
 			</div>
 			<div class="form-group">
 				<label for="password">Password:</label>
@@ -47,10 +35,8 @@ if (isset($_POST[ 'idx' ])  ) {
 			</div>
 			<!--                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#konfirmasi2">Simpan</button>-->
 			<button type="submit" class="btn btn-primary">Simpan</button>
-			<button type="reset" class="btn btn-primary">Reset</button>
 		</form>
-
-
+		
 
 		<?php
 	}
@@ -80,7 +66,6 @@ if (isset($_POST[ 'idx' ])  ) {
 			
 			<!--                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#konfirmasi2">Simpan</button>-->
 			<button type="submit" class="btn btn-primary">Simpan</button>
-			<button type="reset" class="btn btn-primary">Reset</button>
 		</form>
 
 

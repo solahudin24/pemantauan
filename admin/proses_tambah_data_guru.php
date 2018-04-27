@@ -1,32 +1,52 @@
-<body>
 <?php
-include "koneksi.php";
-if(!empty($_POST['nuptk']))
-{
-	$nuptk=$_POST['nuptk'];
-	$nama=$_POST['nama'];
-	$mengajar=$_POST['mengajar'];
-	$password=$_POST['password'];
-	
-	$link=koneksi_db();
-	$query="insert into tb_guru (nuptk,nama,tugas_mengajar,password) values ('$nuptk','$nama','$mengajar',$password);";
-	$res=mysqli_query($link,$query);
-		
-	if($res)
-	{ ?>
+session_start();
+include "../koneksi.php";
+if ( isset( $_POST[ 'submit' ] ) ) {
+	$nuptk = $_POST[ 'nuptk' ];
+	$nama = $_POST[ 'nama' ];
+	$password = $_POST[ 'password' ];
+	if ( empty( $nuptk ) ) {
+		$_SESSION[ 's_pesan' ] = "NUPTK Tidak Boleh Kosong!";
+		?>
 		<script language="javascript">
-            alert('Berhasil Disimpan');
-        	document.location.href="tampil_guru.php";
-    </script>
-    <?php
+			document.location.href = "home_admin.php?tampil=guru";
+		</script>
+		<?php
+	} elseif ( empty( $nama ) ) {
+		$_SESSION[ 's_pesan' ] = "Nama Tidak Boleh Kosong!";
+		?>
+			<script language="javascript">
+				document.location.href = "home_admin.php?tampil=guru";
+			</script>
+		<?php
+	} elseif ( empty( $password ) ) {
+		$_SESSION[ 's_pesan' ] = "Password Tidak Boleh Kosong!";
+		?>
+				<script language="javascript">
+					document.location.href = "home_admin.php?tampil=guru";
+				</script>
+		<?php
+	} else {
+		$link = koneksi_db();
+		$query = "insert into tb_guru (nuptk,nama,password) values ('$nuptk','$nama','$password');";
+		$res = mysqli_query( $link, $query );
+
+		if ( $res ) {
+			$_SESSION[ 's_pesan' ] = "Data Berhasil Disimpan!"
+			?>
+					<script language="javascript">
+						document.location.href = "home_admin.php?tampil=guru";
+					</script>
+			<?php
+		} else {
+			$_SESSION[ 's_pesan' ] = "Data Gagal Disimpan!"
+			?>
+					<script language="javascript">
+						document.location.href = "home_admin.php?tampil=guru";
+					</script>
+			<?php
+		}
+		$link->close();
 	}
-	else
-	{
-		echo "<center><h1>Gagal Menambah Data</h1><br>";
-		echo "Error : ".mysqli_error();
-		echo "<br> Kembali <br> <a href='tampil_data_guru.php'>Link ini</a></center>";
-	}
-	$link->close();
 }
 ?>
-</body>

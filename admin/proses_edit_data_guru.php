@@ -2,14 +2,11 @@
 include "../koneksi.php";
 $link = koneksi_db();
 $nuptk = $_POST[ 'nuptk' ];
-$nip = $_POST[ 'nip' ];
-$tempat_lahir = $_POST[ 'tempat_lahir' ];
-$tanggal_lahir = $_POST[ 'tanggal_lahir' ];
 $nama = $_POST[ 'nama' ];
 $password = $_POST[ 'password' ];
 
 
-$query = "update tb_guru set nip='$nip', nama='$nama', tempat_lahir='$tempat_lahir',tanggal_lahir='$tanggal_lahir', password='$password' WHERE nuptk='$nuptk';";
+$query = "update tb_guru set nama='$nama', password='$password' WHERE nuptk='$nuptk';";
 $res = mysqli_query( $link, $query );
 
 if ( $res ) {

@@ -32,41 +32,67 @@
 								<th >No</th>
 								<th >NIS</th>
 								<th >Nama Siswa</th>
-								<th >Alamat</th>
 								<th >Password</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
-							$link = koneksi_db();
-							$query = 'SELECT * FROM tb_siswa';
-							$res = mysqli_query( $link, $query );
-							$no = 0;
-							$ketemu = mysqli_num_rows( $res );
-							if ( $ketemu == 0 ) {
-								?>
-							<td colspan="5">
-								<center><strong> Tidak ada data dalam tabel</strong>
-								</center>
-							</td>
+
+							$page = isset( $_GET[ 'halaman' ] ) ? ( int )$_GET[ 'halaman' ] : 1;
+							$mulai = ( $page > 1 ) ? ( $page * 10 ) - 10 : 0;
+							$result = mysqli_query( $link, "SELECT * FROM tb_siswa" );
+							$total = mysqli_num_rows( $result );
+							$pages = ceil( $total / 10 );
+							$query = mysqli_query( $link, "select * from tb_siswa LIMIT $mulai, 10" )or die( mysqli_error( $link ) );
+							$no = $mulai + 1;
+							$ketemu = mysqli_num_rows( $query );
+							if ( $ketemu > 0 ) {
+
+
+
+								while ( $data = mysqli_fetch_assoc( $query ) ) {
+									?>
+							<tr>
+								<td>
+									<?php echo $no++; ?>
+								</td>
+								<td>
+									<?php echo $data['nis']; ?>
+								</td>
+								<td>
+									<?php echo $data['nama']; ?>
+								</td>
+								<td>
+									<?php echo $data['password']; ?>
+								</td>
+								<td>
+									<center>
+										<a href="#edit_data" class="btn btn-default btn-small" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'nuptk' ]; ?>">
+											<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+										</a>
+									
+
+										<a href="proses_hapus_data_guru.php?nuptk=<?php echo $data[ 'nuptk' ]; ?>" class="btn btn-default btn-small" onClick="return confirm('Apakah anda yakin ingin menghapus data guru?');" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'nuptk' ]; ?>">
+											<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+										</a>
+									
+
+
+									</center>
+								</td>
+							</tr>
 							<?php
+							}
 							} else {
-								while ( $row = mysqli_fetch_assoc( $res ) ) {
-									$no++;
-									echo "<tr class='gradeC'>
-                                <td>" . $no . "</td>
-                                <td>" . $row[ 'nis' ] . "</td>
-                                <td>" . $row[ 'nama' ] . "</td>
-                                <td>" . $row[ 'alamat' ] . "</td>
-                                <td>" . $row[ 'password' ] . "</td>
-                                <td><center>
-                                <a href='#edit_data' class='btn btn-default btn-small' id='custId' data-toggle='modal' data-id=" . $row[ 'nis' ] . "><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>
-                                
-                                <a href='#hapus_data' class='btn btn-default btn-small' id='custId' data-toggle='modal' data-id=" . $row[ 'nis' ] . "><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a></center>
-                                </td>
-                                </tr>";
-								}
+								?>
+							<tr>
+								<td colspan="5">
+									<center>Tidak ada data dalam tabel</center>
+								</td>
+							</tr>
+
+							<?php
 							}
 							$link->close();
 							?>

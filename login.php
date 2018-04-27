@@ -25,14 +25,14 @@ if ( $temp == "O" || $temp == "o" ) {
 		$_SESSION[ 's_nama' ] = $nama;
 		$_SESSION[ 's_no_telp' ] = $no_telp;
 		$_SESSION[ 's_alamat' ] = $alamat;
-		echo( "<script> location.href ='home_ortu.php';</script>" );
+		echo( "<script> location.href ='orangtua/home_ortu.php';</script>" );
 	} else {
 		$_SESSION[ 's_pesan' ] = "Email atau Password Salah";
 		echo( "<script> location.href ='index.php';</script>" );
 	}
 
 }else{
-	$sql_guru = "select * from tb_guru where nuptk='" . $username . "' and password='" . $password . "' and status='0'";
+	$sql_guru = "select * from tb_guru where nuptk='" . $username . "' and password='" . $password . "' and status='0'";	
 	$res_guru = mysqli_query( $link, $sql_guru );
 	$ketemu = mysqli_num_rows( $res_guru );
 	if ( $ketemu > 0 ) {
