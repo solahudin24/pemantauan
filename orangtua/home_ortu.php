@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-	<title>Geolocation</title>
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<title>Home Orangtua</title>
-
+<?php 
+	require "../koneksi.php";
+	$link = koneksi_db();
+	$title = 'Administrator SLB C Sukapura Kota Bandung';
+	$halaman = 'admin';
+	require( '../header.php' );
+?>
 	<style>
 		/* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -27,34 +22,6 @@
 			width: 100%;
 		}
 	</style>
-
-
-
-	<!-- Bootstrap Core CSS -->
-	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-	<!-- MetisMenu CSS -->
-	<link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-
-	<!-- DataTables CSS -->
-	<link href="vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
-
-	<!-- DataTables Responsive CSS -->
-	<link href="vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
-
-	<!-- Custom CSS -->
-	<link href="dist/css/sb-admin-2.css" rel="stylesheet">
-
-	<!-- Custom Fonts -->
-	<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
 
 <body>
 	<div id="wrapper">
@@ -102,8 +69,22 @@
 
 	</div>
 	<div id="map"></div>
+	
+	<?php 
+	//lokasi siswa
+      	$query = "SELECT * FROM tb_siswa WHERE nis = '111'";
+		$res = mysqli_query( $link, $query );
+		while ( $row = mysqli_fetch_assoc( $res ) ) {
+			$nama = $row['nama'];
+			$latitude=$row['lat'];
+			$longitude=$row['longitude'];
+		}
+		
+     ?>
     <script>
-
+    var nama = '<?php echo $nama; ?>';
+    var lat = '<?php echo $latitude;?>';
+    var longitude = '<?php echo $longitude;?>';
       // This example creates a simple polygon representing the Bermuda Triangle.
       // When the user clicks on the polygon an info window opens, showing
       // information about the polygon's coordinates.
@@ -123,7 +104,7 @@
 		  var marker = new google.maps.Marker({
 		    position: myLatLng,
 		    map: map,
-		    title: 'SLB C Sukapura'
+		    title: nama
 		  });
 
 

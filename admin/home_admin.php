@@ -84,14 +84,13 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 				require( 'tampil_guru.php' );
 			} else if ( $tampil == 'siswa' ) {
 				require( 'tampil_siswa.php' );
+			} else if($tampil == 'orangtua'){
+			    require('tampil_orangtua.php');
+			}else if($tampil == 'jabatan'){
+				require('tampil_jabatan.php');
+			}else if($tampil == 'kelas'){
+				require('tampil_kelas.php');
 			}
-			//		else if($tampil == 'orangtua'){
-			//						require('menu_orangtua.php');
-			//					}else if($tampil == 'jabatan'){
-			//						require('menu_jabatan.php');
-			//					}else if($tampil == 'kelas'){
-			//						require('menu_kelas.php');
-			//					}
 		} else {
 			require( 'tampil_guru.php' );
 		}

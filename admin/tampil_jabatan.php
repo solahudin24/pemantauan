@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Data Orangtua</h1>
+            <h1 class="page-header">Data Jabatan</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -28,7 +28,7 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tambah">Tambah Data Orangtua</button><br><br>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tambah">Tambah Data Jabatan</button><br><br>
                     </div>
                     
                     <div class="col-md-4">
@@ -49,22 +49,19 @@
                         </div>
                     <br>
 
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="tabel_orangtua">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="tabel_jabatan">
                         <thead>
                             <tr>
                                 <th onclick="sortTable(0)">
                                     <center>No</center>
                                 </th>
                                 <th onclick="sortTable(1)">
-                                    <center>Id Orangtua</center>
+                                    <center>Kode Jabatan</center>
                                 </th>
                                 <th onclick="sortTable(2)">
-                                    <center>Nama Orangtua</center>
+                                    <center>Nama Jabatan</center>
                                 </th>
-                                <th onclick="sortTable(3)">
-                                    <center>Password</center>
-                                </th>
-                                <th colspan="2">
+                                <th>
                                     <center>Action</center>
                                 </th>
                             </tr>
@@ -74,10 +71,10 @@
 
                             $page = isset( $_GET[ 'halaman' ] ) ? ( int )$_GET[ 'halaman' ] : 1;
                             $mulai = ( $page > 1 ) ? ( $page * 10 ) - 10 : 0;
-                            $result = mysqli_query( $link, "SELECT * FROM tb_orangtua" );
+                            $result = mysqli_query( $link, "SELECT * FROM tb_jabatan" );
                             $total = mysqli_num_rows( $result );
                             $pages = ceil( $total / 10 );
-                            $query = mysqli_query( $link, "select * from tb_orangtua LIMIT $mulai, 10" )or die( mysqli_error( $link ) );
+                            $query = mysqli_query( $link, "select * from tb_jabatan LIMIT $mulai, 10" )or die( mysqli_error( $link ) );
                             $no = $mulai + 1;
                             $ketemu = mysqli_num_rows( $query );
                             if ( $ketemu > 0 ) {
@@ -91,27 +88,23 @@
                                     <?php echo $no++; ?>
                                 </td>
                                 <td>
-                                    <?php echo $data['id_orangtua']; ?>
+                                    <?php echo $data['kode_jabatan']; ?>
                                 </td>
                                 <td>
-                                    <?php echo $data['nama']; ?>
+                                    <?php echo $data['nama_jabatan']; ?>
                                 </td>
-                                <td>
-                                    <?php echo $data['password']; ?>
-                                </td>
+                                
                                 <td>
                                     <center>
-                                        <a href="#edit_data" class="btn btn-default btn-small" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'nuptk' ]; ?>">
+                                        <a href="#edit_data" class="btn btn-default btn-small" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'kode_jabatan' ]; ?>">
                                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                         </a>
                                     
 
-                                        <a href="proses_hapus_data_orangtua.php?nuptk=<?php echo $data[ 'id_orangtua' ]; ?>" class="btn btn-default btn-small" onClick="return confirm('Apakah anda yakin ingin menghapus data orangtua?');" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'id_orangtua' ]; ?>">
+                                        <a href="proses_hapus_data_jabatan.php?nuptk=<?php echo $data[ 'kode_jabatan' ]; ?>" class="btn btn-default btn-small" onClick="return confirm('Apakah anda yakin ingin menghapus data orangtua?');" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'kode_jabatan' ]; ?>">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                         </a>
                                     
-
-
                                     </center>
                                 </td>
                             </tr>
@@ -155,7 +148,7 @@
                                 for ($i=1; $i<=$pages ; $i++){ ?>
                                 <li <?php if($isi==$i) { echo "class='active'"; } ?>
                                     >
-                                    <a href="home_admin.php?tampil=orangtua&halaman=<?php echo $i; ?>">
+                                    <a href="home_admin.php?tampil=jabatan&halaman=<?php echo $i; ?>">
                                         <?php echo $i; ?>
                                     </a>
                                 </li>
@@ -197,22 +190,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Input Data Orangtua</h4>
+                <h4 class="modal-title">Input Data Jabatan</h4>
             </div>
             <div class="modal-body">
-                <form action="proses_tambah_data_orangtua.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');">
+                <form action="proses_tambah_data_kelas.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');">
                     <div class="form-group">
-                        <label for="nuptk">Id Orangtua:</label>
-                        <input type="text" class="form-control" name="id_orangtua">
+                        <label for="kode_jabatan">Kode Jabatan :</label>
+                        <input type="text" class="form-control" name="kode_jabatan">
                     </div>
                     <div class="form-group">
-                        <label for="nama">Nama Orangtua:</label>
-                        <input type="text" class="form-control" name="nama">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="text" class="form-control" name="password">
-                    </div>
+                        <label for="nama_jabatan">Nama Jabatan :</label>
+                        <input type="text" class="form-control" name="nama_jabatan">
+                    </div>                    
             </div>
             <div class="modal-footer">
                 <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
@@ -253,7 +242,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Ubah Data Orangtua</h4>
+                <h4 class="modal-title">Ubah Data Jabatan</h4>
             </div>
             <div class="modal-body">
                 <div class="hasil-data"></div>
@@ -300,12 +289,12 @@
 <script type="text/javascript">
     $( document ).ready( function () {
         $( '#edit_data' ).on( 'show.bs.modal', function ( e ) {
-            var id_orangtua = $( e.relatedTarget ).data( 'id' ); //harus tetap id, jika tidak akan data tak akan terambil
+            var kode_jabatan = $( e.relatedTarget ).data( 'id' ); //harus tetap id, jika tidak akan data tak akan terambil
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax( {
                 type: 'post',
                 url: 'ubah.php',
-                data: 'id_orangtua=' + id_orangtua,
+                data: 'kode_jabatan=' + kode_jabatan,
                 success: function ( data ) {
                     $( '.hasil-data' ).html( data ); //menampilkan data ke dalam modal
                 }
