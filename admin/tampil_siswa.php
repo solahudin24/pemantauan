@@ -30,7 +30,7 @@
                     <div class="col-md-4">
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tambah">Tambah Data Siswa</button><br><br>
                     </div>
-                    
+                    <div class="col-md-4"></div>
                     <div class="col-md-4">
                     <ul class="nav">
                         <li class="sidebar-search">
@@ -52,22 +52,22 @@
                     <table width="100%" class="table table-striped table-bordered table-hover" id="tabel_siswa">
                         <thead>
                             <tr>
-                                <th onclick="sortTable(0)">
+                                <th>
                                     <center>No</center>
                                 </th>
-                                <th onclick="sortTable(1)">
+                                <th>
                                     <center>NIS</center>
                                 </th>
-                                <th onclick="sortTable(2)">
+                                <th>
                                     <center>Nama</center>
                                 </th>
-                                <th onclick="sortTable(3)">
+                                <th>
                                     <center>Alamat</center>
                                 </th>
-                                <th onclick="sortTable(4)">
+                                <th>
                                     <center>Password</center>
                                 </th>
-                                <th colspan="2">
+                                <th>
                                     <center>Action</center>
                                 </th>
                             </tr>

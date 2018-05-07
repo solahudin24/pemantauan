@@ -14,6 +14,9 @@
 			<span aria-hidden="true">×</span>
 		</button>
 	
+
+
+
 		<?php 
 			echo $_SESSION['s_pesan'];
 			unset($_SESSION['s_pesan']);
@@ -30,39 +33,43 @@
 					<div class="col-md-4">
 						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#tambah">Tambah Data Guru</button><br><br>
 					</div>
-					
+					<div class="col-md-4"></div>
+
 					<div class="col-md-4">
-					<ul class="nav">
-						<li class="sidebar-search">
-							<div class="input-group custom-search-form">
-								<input type="text" class="form-control" placeholder="Search...">
-								<span class="input-group-btn">
+						<ul class="nav">
+							<li class="sidebar-search">
+								<div class="input-group custom-search-form">
+									<input type="text" class="form-control" placeholder="Search...">
+									<span class="input-group-btn">
                                         <button class="btn btn-default" type="button">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
-							</div>
-							<!-- /input-group -->
-						</li>
-					</ul>
-						
-						</div>
+								
+
+
+								</div>
+								<!-- /input-group -->
+							</li>
+						</ul>
+
+					</div>
 					<br>
 
 					<table width="100%" class="table table-striped table-bordered table-hover" id="tabel_guru">
 						<thead>
 							<tr>
-								<th onclick="sortTable(0)">
+								<th>
 									<center>No</center>
 								</th>
-								<th onclick="sortTable(1)">
+								<th>
 									<center>NUPTK</center>
 								</th>
-								<th onclick="sortTable(2)">
+								<th>
 									<center>Nama Guru</center>
 								</th>
-								<th onclick="sortTable(3)">
-									<center>Password</center>
+								<th>
+									<center>Foto</center>
 								</th>
 								<th colspan="2">
 									<center>Action</center>
@@ -74,10 +81,10 @@
 
 							$page = isset( $_GET[ 'halaman' ] ) ? ( int )$_GET[ 'halaman' ] : 1;
 							$mulai = ( $page > 1 ) ? ( $page * 10 ) - 10 : 0;
-							$result = mysqli_query( $link, "SELECT * FROM tb_guru" );
+							$result = mysqli_query( $link, "SELECT * FROM tb_guru where status='0'" );
 							$total = mysqli_num_rows( $result );
 							$pages = ceil( $total / 10 );
-							$query = mysqli_query( $link, "select * from tb_guru LIMIT $mulai, 10" )or die( mysqli_error( $link ) );
+							$query = mysqli_query( $link, "select * from tb_guru where status='0' LIMIT $mulai, 10" )or die( mysqli_error( $link ) );
 							$no = $mulai + 1;
 							$ketemu = mysqli_num_rows( $query );
 							if ( $ketemu > 0 ) {
@@ -97,10 +104,92 @@
 									<?php echo $data['nama']; ?>
 								</td>
 								<td>
-									<?php echo $data['password']; ?>
+									<center>
+										<img class="img-rounded" src="../foto_guru/<?php echo $data['foto'];?>" width="75" height="75">
+									</center>
 								</td>
 								<td>
 									<center>
+										<a href="#view_data" class="btn btn-default btn-small" data-toggle="modal" data-target="#<?php echo $data[ 'nuptk' ]; ?>">
+											<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+										</a>
+									
+
+
+										<div class="modal fade" id="<?php echo $data[ 'nuptk' ]; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+														<h4 class="modal-title" id="myModalLabel">Detail Data Guru</h4>
+													</div>
+													<div class="modal-body">
+														<table width="100%" class="table table-striped table-bordered table-hover">
+															<tr>
+																<td class="col-md-4">NUPTK</td>
+																<td class="col-md-8">
+																	<?php echo $data['nuptk']; ?>
+																</td>
+															</tr>
+															<tr>
+																<td>NIP</td>
+																<td>
+																	<?php echo $data['nip']; ?>
+																</td>
+															</tr>
+															<tr>
+																<td>Nama Guru</td>
+																<td>
+																	<?php echo $data['nama']; ?>
+																</td>
+															</tr>
+															<tr>
+																<td>Tempat Lahir</td>
+																<td>
+																	<?php echo $data['tempat_lahir']; ?>
+																</td>
+															</tr>
+															<tr>
+																<td>Tanggal Lahir</td>
+																<td>
+																	<?php echo $data['tgl_lahir']; ?>
+																</td>
+															</tr>
+															<tr>
+																<td>Kelas</td>
+																<td>
+																	<?php 
+																		$sql_kelas = "select * from tb_kelas where id_kelas='".$data['id_kelas']."'";
+																		$res_kelas = mysqli_query($link,$sql_kelas);
+																		$data_kelas = mysqli_fetch_array($res_kelas);
+																		echo $data_kelas['kelas']." ".$data_kelas['tingkatan']; ?>
+																</td>
+															</tr>
+															<tr>
+																<td>Jabatan</td>
+																<td>
+																	<?php 
+																		$sql_jabatan = "select * from tb_jabatan where kode_jabatan='".$data['kode_jabatan']."'";
+																		$res_jabatan = mysqli_query($link,$sql_jabatan);
+																		$data_jabatan = mysqli_fetch_array($res_jabatan);
+																		echo $data_jabatan['nama_jabatan']; ?>
+																</td>
+															</tr>
+															<tr>
+																<td>Foto</td>
+																<td>
+																	<img src="../foto_guru/<?php echo $data['foto']; ?>" class="img-rounded" width="100" height="100">
+																</td>
+															</tr>
+														</table>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													</div>
+												</div>
+											</div>
+										</div>
+
 										<a href="#edit_data" class="btn btn-default btn-small" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'nuptk' ]; ?>">
 											<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 										</a>
@@ -110,7 +199,6 @@
 											<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 										</a>
 									
-
 
 									</center>
 								</td>
@@ -127,7 +215,7 @@
 
 							<?php
 							}
-							$link->close();
+							//							$link->close();
 							?>
 						</tbody>
 					</table>
@@ -176,7 +264,7 @@
 					?>
 
 
-					
+
 
 				</div>
 				<!-- /.col-lg-12 -->
@@ -200,18 +288,72 @@
 				<h4 class="modal-title">Input Data Guru</h4>
 			</div>
 			<div class="modal-body">
-				<form action="proses_tambah_data_guru.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');">
+				<form action="proses_tambah_data_guru.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="nuptk">NUPTK:</label>
-						<input type="text" class="form-control" name="nuptk">
+						<input type="text" class="form-control" name="nuptk" required>
+					</div>
+					<div class="form-group">
+						<label for="nip">NIP:</label>
+						<input type="text" class="form-control" name="nip">
 					</div>
 					<div class="form-group">
 						<label for="nama">Nama Guru:</label>
-						<input type="text" class="form-control" name="nama">
+						<input type="text" class="form-control" name="nama" required>
 					</div>
 					<div class="form-group">
 						<label for="password">Password:</label>
-						<input type="text" class="form-control" name="password">
+						<input type="text" class="form-control" name="password" required>
+					</div>
+					<div class="form-group">
+						<label for="tempat_lahir">Tempat Lahir:</label>
+						<input type="text" class="form-control" name="tempat_lahir" required>
+					</div>
+					<div class="form-group">
+						<label for="tgl_lahir">Tanggal Lahir:</label>
+						<input type="date" class="form-control" name="tgl_lahir" required>
+					</div>
+					<div class="form-group">
+						<label for="id_kelas">Kelas:</label>
+						<select name="id_kelas" class="form-control">
+							<?php
+							//								$link = koneksi_db();
+							$sql = "SELECT * FROM tb_kelas";
+							$res = mysqli_query( $link, $sql );
+							while ( $data_kelas = mysqli_fetch_array( $res ) ) {
+								?>
+							<option value="<?php echo $data_kelas['id_kelas']; ?>">
+								<?php echo $data_kelas['kelas']." ".$data_kelas['tingkatan']; ?>
+							</option>
+							<?php
+							}
+							//								$link -> close();
+							?>
+
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="id_jabatan">Jabatan:</label>
+						<select name="id_jabatan" class="form-control">
+							<?php
+							//								$link = koneksi_db();
+							$sql = "SELECT * FROM tb_jabatan";
+							$res = mysqli_query( $link, $sql );
+							while ( $data_jabatan = mysqli_fetch_array( $res ) ) {
+								?>
+							<option value="<?php echo $data_jabatan['kode_jabatan']; ?>">
+								<?php echo $data_jabatan['nama_jabatan']; ?>
+							</option>
+							<?php
+							}
+							//								$link -> close();
+							?>
+
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="foto">Foto:</label>
+						<input type="file" class="form-control" name="foto">
 					</div>
 			</div>
 			<div class="modal-footer">
@@ -224,25 +366,6 @@
 </div>
 
 
-<!--
-<div id="konfirmasi" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-	<div class="modal-dialog modal-sm" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Konfirmasi</h4>
-			</div>
-			<div class="modal-body">
-				Apakah anda yakin ingin menyimpan data?
-			</div>
-			<div class="modal-footer">
-				<button type="submit" name="submit" class="btn btn-primary">Ya</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">batal</button>
-			</div>
-		</div>
-	</div>
-</div>
--->
 
 
 <!-- modal ubah -->
@@ -258,7 +381,7 @@
 			<div class="modal-body">
 				<div class="hasil-data"></div>
 			</div>
-			
+
 		</div>
 	</div>
 </div>
