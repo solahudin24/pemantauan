@@ -16,7 +16,8 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 	$tgl_lahir = $_POST[ 'tgl_lahir' ];
 	$id_kelas = $_POST[ 'id_kelas' ];
 	$id_jabatan = $_POST[ 'id_jabatan' ];
-
+	$status=$_POST['status'];
+	
 	$time = time();
 	$nama = $_FILES[ 'foto' ][ 'name' ];
 	$error = $_FILES[ 'foto' ][ 'error' ];
@@ -32,11 +33,11 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 			if ( $format == "jpg" || $format == "png" || $format == "jpeg" || $format == "JPG" || $format == "PNG" || $format == "JPEG" || $format == "" ) {
 
 				if ( $error == 4 ) {
-					$sql = "UPDATE `tb_guru` SET `nuptk`='$nuptk',`nip`='$nip',`nama`='$nama_guru',`tempat_lahir`='$tempat_lahir',`tgl_lahir`='$tgl_lahir',`kode_jabatan`='$id_jabatan',`password`='$password',`id_kelas`='$id_kelas' WHERE nuptk='" . $_GET[ 'nuptk' ] . "'";
+					$sql = "UPDATE `tb_guru` SET `nuptk`='$nuptk',`nip`='$nip',`nama`='$nama_guru',`tempat_lahir`='$tempat_lahir',`tgl_lahir`='$tgl_lahir',`kode_jabatan`='$id_jabatan',`password`='$password',`id_kelas`='$id_kelas',status = '$status' WHERE nuptk='" . $_GET[ 'nuptk' ] . "'";
 
 				} else {
 					$format2 = "." . $format;
-					$namafile = "../foto_guru/" . $nama;
+					$namafile = "../images/guru/" . $nama;
 					$namafile = str_replace( $format2, "", $namafile );
 					$namafile = $namafile . "_" . $time . $format2;
 					move_uploaded_file( $tmp_name, $namafile );
@@ -44,12 +45,12 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 					$nama1 = $nama1 . "_" . $time . $format2;
 
 					if ( $data_ambil_foto[ 'foto' ] != "foto-default.jpg" ) {
-						if ( file_exists( "../foto_guru/" . $data_ambil_foto[ 'foto' ] ) ) {
-							unlink( "../foto_guru/" . $data_ambil_foto[ 'foto' ] );
+						if ( file_exists( "../images/guru/" . $data_ambil_foto[ 'foto' ] ) ) {
+							unlink( "../images/guru/" . $data_ambil_foto[ 'foto' ] );
 						}
 					}
 
-					$sql = "UPDATE `tb_guru` SET `nuptk`='$nuptk',`nip`='$nip',`nama`='$nama_guru',`tempat_lahir`='$tempat_lahir',`tgl_lahir`='$tgl_lahir',`kode_jabatan`='$id_jabatan',`password`='$password',`id_kelas`='$id_kelas', foto='$nama1' WHERE nuptk='" . $_GET[ 'nuptk' ] . "'";
+					$sql = "UPDATE `tb_guru` SET `nuptk`='$nuptk',`nip`='$nip',`nama`='$nama_guru',`tempat_lahir`='$tempat_lahir',`tgl_lahir`='$tgl_lahir',`kode_jabatan`='$id_jabatan',`password`='$password',`id_kelas`='$id_kelas', foto='$nama1', status = '$status' WHERE nuptk='" . $_GET[ 'nuptk' ] . "'";
 
 				}
 
@@ -82,7 +83,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 				<?php
 			}
 		} else {
-			$_SESSION[ 's_pesan' ] = "size file kegedean";
+			$_SESSION[ 's_pesan' ] = "size file terlalu besar";
 			?>
 			<script language="javascript">
 				document.location.href = "home_admin.php?tampil=guru";

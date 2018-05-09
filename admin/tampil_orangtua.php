@@ -14,7 +14,7 @@
             <span aria-hidden="true">×</span>
         </button>
     
-        <?php 
+    <?php 
             echo $_SESSION['s_pesan'];
             unset($_SESSION['s_pesan']);
         ?>
@@ -30,39 +30,41 @@
                     <div class="col-md-4">
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tambah">Tambah Data Orangtua</button><br><br>
                     </div>
-                    
+                    <div class="col-md-4"></div>
+
                     <div class="col-md-4">
-                    <ul class="nav">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
+                        <ul class="nav">
+                            <li class="sidebar-search">
+                                <div class="input-group custom-search-form">
+                                    <input type="text" class="form-control" placeholder="Search...">
+                                    <span class="input-group-btn">
                                         <button class="btn btn-default" type="button">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
-                    </ul>
-                        
-                        </div>
+                                
+                                </div>
+                                <!-- /input-group -->
+                            </li>
+                        </ul>
+
+                    </div>
                     <br>
 
                     <table width="100%" class="table table-striped table-bordered table-hover" id="tabel_orangtua">
                         <thead>
                             <tr>
-                                <th onclick="sortTable(0)">
+                                <th>
                                     <center>No</center>
                                 </th>
-                                <th onclick="sortTable(1)">
+                                <th>
                                     <center>Id Orangtua</center>
                                 </th>
-                                <th onclick="sortTable(2)">
+                                <th>
                                     <center>Nama Orangtua</center>
                                 </th>
-                                <th onclick="sortTable(3)">
-                                    <center>Password</center>
+                                <th>
+                                    <center>Foto</center>
                                 </th>
                                 <th colspan="2">
                                     <center>Action</center>
@@ -81,9 +83,6 @@
                             $no = $mulai + 1;
                             $ketemu = mysqli_num_rows( $query );
                             if ( $ketemu > 0 ) {
-
-
-
                                 while ( $data = mysqli_fetch_assoc( $query ) ) {
                                     ?>
                             <tr>
@@ -97,20 +96,81 @@
                                     <?php echo $data['nama']; ?>
                                 </td>
                                 <td>
-                                    <?php echo $data['password']; ?>
+                                    <center>
+                                        <img class="img-rounded" src="../images/orangtua/<?php echo $data['foto'];?>" width="75" height="75">
+                                    </center>
                                 </td>
                                 <td>
                                     <center>
-                                        <a href="#edit_data" class="btn btn-default btn-small" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'nuptk' ]; ?>">
+                                        <a href="#view_data" class="btn btn-default btn-small" data-toggle="modal" data-target="#<?php echo $data[ 'id_orangtua' ]; ?>">
+                                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                        </a>
+                                    
+
+
+                                        <div class="modal fade" id="<?php echo $data[ 'id_orangtua' ]; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Detail Data Orangtua</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table width="100%" class="table table-striped table-bordered table-hover">
+                                                            <tr>
+                                                                <td class="col-md-4">Id Orangtua</td>
+                                                                <td class="col-md-8">
+                                                                    <?php echo $data['id_orangtua']; ?>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Nama Orangtua</td>
+                                                                <td>
+                                                                    <?php echo $data['nama']; ?>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Alamat</td>
+                                                                <td>
+                                                                    <?php echo $data['alamat']; ?>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Nomor Telepon</td>
+                                                                <td>
+                                                                    <?php echo $data['no_telp']; ?>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Foto</td>
+                                                                <td>
+                                                                    <img src="../images/siswa/<?php echo $data['foto']; ?>" class="img-rounded" width="100" height="100">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Status</td>
+                                                                <td>
+                                                                    <?php 
+                                                                        if ($data['status']==0) {
+                                                                                echo "Aktif";
+                                                                            }else {
+                                                                                echo "Tidak Aktif";
+                                                                            }   
+                                                                    ?>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="#edit_data" class="btn btn-default btn-small" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'id_orangtua' ]; ?>">
                                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                        </a>
-                                    
-
-                                        <a href="proses_hapus_data_orangtua.php?nuptk=<?php echo $data[ 'id_orangtua' ]; ?>" class="btn btn-default btn-small" onClick="return confirm('Apakah anda yakin ingin menghapus data orangtua?');" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'id_orangtua' ]; ?>">
-                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                        </a>
-                                    
-
+                                        </a>                        
 
                                     </center>
                                 </td>
@@ -127,7 +187,7 @@
 
                             <?php
                             }
-                            $link->close();
+                            //                          $link->close();
                             ?>
                         </tbody>
                     </table>
@@ -139,14 +199,6 @@
                     <center>
                         <nav aria-label="Page navigation">
                             <ul class="pagination">
-                                <!--
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                
-                                </li>
--->
                                 <?php 
                                 $isi = 1;
                                 if(isset($_GET['halaman'])){
@@ -160,14 +212,6 @@
                                     </a>
                                 </li>
                                 <?php } ?>
-                                <!--
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                
-                                </li>
--->
                             </ul>
                         </nav>
                     </center>
@@ -176,7 +220,7 @@
                     ?>
 
 
-                    
+
 
                 </div>
                 <!-- /.col-lg-12 -->
@@ -200,18 +244,30 @@
                 <h4 class="modal-title">Input Data Orangtua</h4>
             </div>
             <div class="modal-body">
-                <form action="proses_tambah_data_orangtua.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');">
+                <form action="proses_tambah_data_orangtua.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="nuptk">Id Orangtua:</label>
-                        <input type="text" class="form-control" name="id_orangtua">
+                        <label for="id_orangtua">Id Orangtua:</label>
+                        <input type="text" class="form-control" name="id_orangtua" required>
                     </div>
                     <div class="form-group">
                         <label for="nama">Nama Orangtua:</label>
-                        <input type="text" class="form-control" name="nama">
+                        <input type="text" class="form-control" name="nama" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
-                        <input type="text" class="form-control" name="password">
+                        <input type="text" class="form-control" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alamat">Alamat :</label>
+                            <textarea class="form-control" rows="3" name="alamat"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="no_telp">Nomor Telepon:</label>
+                        <input type="text" class="form-control" name="no_telp">
+                    </div>
+                    <div class="form-group">
+                        <label for="foto">Foto:</label>
+                        <input type="file" class="form-control" name="foto">
                     </div>
             </div>
             <div class="modal-footer">
@@ -224,25 +280,6 @@
 </div>
 
 
-<!--
-<div id="konfirmasi" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Konfirmasi</h4>
-            </div>
-            <div class="modal-body">
-                Apakah anda yakin ingin menyimpan data?
-            </div>
-            <div class="modal-footer">
-                <button type="submit" name="submit" class="btn btn-primary">Ya</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">batal</button>
-            </div>
-        </div>
-    </div>
-</div>
--->
 
 
 <!-- modal ubah -->
@@ -258,54 +295,20 @@
             <div class="modal-body">
                 <div class="hasil-data"></div>
             </div>
-            
+
         </div>
     </div>
 </div>
-
-<!-- Modal Konfirmasi -->
-<div class="modal fade" id="konfirmasi2" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Konfirmasi</h4>
-            </div>
-            <div class="modal-body">
-                Apakah anda yakin ingin menyimpan data?
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Ya</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">batal</button>
-            </div>
-        </div>
-        <!--                </form>      -->
-    </div>
-</div>
-
-
-
-<!--
-<script>
-    $( document ).ready( function () {
-        $( '#tabel_guru' ).DataTable( {
-            responsive: true
-        } );
-    } );
-</script>
--->
 
 <script type="text/javascript">
     $( document ).ready( function () {
         $( '#edit_data' ).on( 'show.bs.modal', function ( e ) {
-            var id_orangtua = $( e.relatedTarget ).data( 'id' ); //harus tetap id, jika tidak akan data tak akan terambil
+            var idx = $( e.relatedTarget ).data( 'id' ); //harus tetap id, jika tidak akan data tak akan terambil
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax( {
                 type: 'post',
                 url: 'ubah.php',
-                data: 'id_orangtua=' + id_orangtua,
+                data: 'id_orangtua=' + idx,
                 success: function ( data ) {
                     $( '.hasil-data' ).html( data ); //menampilkan data ke dalam modal
                 }

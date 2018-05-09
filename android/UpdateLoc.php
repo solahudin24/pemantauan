@@ -8,8 +8,9 @@
  $nis = $_POST['nis'];
  $longitude = $_POST['longitude'];
  $lat = $_POST['lat'];
+ $batre = $_POST['batre'];
 
- $Sql_Query = "update tb_siswa SET longitude = '$longitude', lat = '$lat' WHERE nis = '$nis';";
+ $Sql_Query = "update tb_siswa SET longitude = '$longitude', lat = '$lat' , baterai = '$batre' WHERE nis = '$nis';";
  
  $res = mysqli_query($con,$Sql_Query);
  

@@ -54,6 +54,8 @@ if ( $temp == "O" || $temp == "o" ) {
 		
 		if($kode_jabatan == "BKS"){
 			echo( "<script> location.href ='admin/home_admin.php';</script>" );
+		}else if ($kode_jabatan == "KSK") {
+			echo( "<script> location.href ='kepala_sekolah/home_kepsek.php';</script>" );			
 		}else{
 			echo( "<script> location.href ='guru/home_guru.php';</script>" );
 		}

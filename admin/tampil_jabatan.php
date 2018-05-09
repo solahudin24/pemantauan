@@ -14,7 +14,7 @@
             <span aria-hidden="true">×</span>
         </button>
     
-        <?php 
+    <?php 
             echo $_SESSION['s_pesan'];
             unset($_SESSION['s_pesan']);
         ?>
@@ -30,35 +30,37 @@
                     <div class="col-md-4">
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tambah">Tambah Data Jabatan</button><br><br>
                     </div>
-                    
+                    <div class="col-md-4"></div>
+
                     <div class="col-md-4">
-                    <ul class="nav">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
+                        <ul class="nav">
+                            <li class="sidebar-search">
+                                <div class="input-group custom-search-form">
+                                    <input type="text" class="form-control" placeholder="Search...">
+                                    <span class="input-group-btn">
                                         <button class="btn btn-default" type="button">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
-                    </ul>
-                        
-                        </div>
+                                
+                                </div>
+                                <!-- /input-group -->
+                            </li>
+                        </ul>
+
+                    </div>
                     <br>
 
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="tabel_jabatan">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="tabel_orangtua">
                         <thead>
                             <tr>
-                                <th onclick="sortTable(0)">
+                                <th>
                                     <center>No</center>
                                 </th>
-                                <th onclick="sortTable(1)">
+                                <th>
                                     <center>Kode Jabatan</center>
                                 </th>
-                                <th onclick="sortTable(2)">
+                                <th>
                                     <center>Nama Jabatan</center>
                                 </th>
                                 <th>
@@ -78,9 +80,6 @@
                             $no = $mulai + 1;
                             $ketemu = mysqli_num_rows( $query );
                             if ( $ketemu > 0 ) {
-
-
-
                                 while ( $data = mysqli_fetch_assoc( $query ) ) {
                                     ?>
                             <tr>
@@ -93,18 +92,11 @@
                                 <td>
                                     <?php echo $data['nama_jabatan']; ?>
                                 </td>
-                                
                                 <td>
                                     <center>
                                         <a href="#edit_data" class="btn btn-default btn-small" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'kode_jabatan' ]; ?>">
                                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                        </a>
-                                    
-
-                                        <a href="proses_hapus_data_jabatan.php?nuptk=<?php echo $data[ 'kode_jabatan' ]; ?>" class="btn btn-default btn-small" onClick="return confirm('Apakah anda yakin ingin menghapus data orangtua?');" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'kode_jabatan' ]; ?>">
-                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                        </a>
-                                    
+                                        </a>                        
                                     </center>
                                 </td>
                             </tr>
@@ -120,7 +112,7 @@
 
                             <?php
                             }
-                            $link->close();
+                            //                          $link->close();
                             ?>
                         </tbody>
                     </table>
@@ -132,14 +124,6 @@
                     <center>
                         <nav aria-label="Page navigation">
                             <ul class="pagination">
-                                <!--
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                
-                                </li>
--->
                                 <?php 
                                 $isi = 1;
                                 if(isset($_GET['halaman'])){
@@ -153,14 +137,6 @@
                                     </a>
                                 </li>
                                 <?php } ?>
-                                <!--
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                
-                                </li>
--->
                             </ul>
                         </nav>
                     </center>
@@ -169,7 +145,7 @@
                     ?>
 
 
-                    
+
 
                 </div>
                 <!-- /.col-lg-12 -->
@@ -193,15 +169,15 @@
                 <h4 class="modal-title">Input Data Jabatan</h4>
             </div>
             <div class="modal-body">
-                <form action="proses_tambah_data_kelas.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');">
+                <form action="proses_tambah_data_jabatan.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="kode_jabatan">Kode Jabatan :</label>
-                        <input type="text" class="form-control" name="kode_jabatan">
+                        <label for="kode_jabatan">Kode Jabatan:</label>
+                        <input type="text" class="form-control" name="kode_jabatan" required>
                     </div>
                     <div class="form-group">
-                        <label for="nama_jabatan">Nama Jabatan :</label>
-                        <input type="text" class="form-control" name="nama_jabatan">
-                    </div>                    
+                        <label for="nama_jabatan">Nama Jabatan:</label>
+                        <input type="text" class="form-control" name="nama_jabatan" required>
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
@@ -213,25 +189,6 @@
 </div>
 
 
-<!--
-<div id="konfirmasi" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Konfirmasi</h4>
-            </div>
-            <div class="modal-body">
-                Apakah anda yakin ingin menyimpan data?
-            </div>
-            <div class="modal-footer">
-                <button type="submit" name="submit" class="btn btn-primary">Ya</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">batal</button>
-            </div>
-        </div>
-    </div>
-</div>
--->
 
 
 <!-- modal ubah -->
@@ -247,54 +204,20 @@
             <div class="modal-body">
                 <div class="hasil-data"></div>
             </div>
-            
+
         </div>
     </div>
 </div>
-
-<!-- Modal Konfirmasi -->
-<div class="modal fade" id="konfirmasi2" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Konfirmasi</h4>
-            </div>
-            <div class="modal-body">
-                Apakah anda yakin ingin menyimpan data?
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Ya</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">batal</button>
-            </div>
-        </div>
-        <!--                </form>      -->
-    </div>
-</div>
-
-
-
-<!--
-<script>
-    $( document ).ready( function () {
-        $( '#tabel_guru' ).DataTable( {
-            responsive: true
-        } );
-    } );
-</script>
--->
 
 <script type="text/javascript">
     $( document ).ready( function () {
         $( '#edit_data' ).on( 'show.bs.modal', function ( e ) {
-            var kode_jabatan = $( e.relatedTarget ).data( 'id' ); //harus tetap id, jika tidak akan data tak akan terambil
+            var idx = $( e.relatedTarget ).data( 'id' ); //harus tetap id, jika tidak akan data tak akan terambil
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax( {
                 type: 'post',
                 url: 'ubah.php',
-                data: 'kode_jabatan=' + kode_jabatan,
+                data: 'kode_jabatan=' + idx,
                 success: function ( data ) {
                     $( '.hasil-data' ).html( data ); //menampilkan data ke dalam modal
                 }

@@ -14,10 +14,7 @@
 			<span aria-hidden="true">×</span>
 		</button>
 	
-
-
-
-		<?php 
+	<?php 
 			echo $_SESSION['s_pesan'];
 			unset($_SESSION['s_pesan']);
 		?>
@@ -46,8 +43,6 @@
                                         </button>
                                     </span>
 								
-
-
 								</div>
 								<!-- /input-group -->
 							</li>
@@ -69,6 +64,9 @@
 									<center>Nama Guru</center>
 								</th>
 								<th>
+									<center>Jabatan</center>
+								</th>
+								<th>
 									<center>Foto</center>
 								</th>
 								<th colspan="2">
@@ -81,10 +79,10 @@
 
 							$page = isset( $_GET[ 'halaman' ] ) ? ( int )$_GET[ 'halaman' ] : 1;
 							$mulai = ( $page > 1 ) ? ( $page * 10 ) - 10 : 0;
-							$result = mysqli_query( $link, "SELECT * FROM tb_guru where status='0'" );
+							$result = mysqli_query( $link, "SELECT * FROM tb_guru" );
 							$total = mysqli_num_rows( $result );
 							$pages = ceil( $total / 10 );
-							$query = mysqli_query( $link, "select * from tb_guru where status='0' LIMIT $mulai, 10" )or die( mysqli_error( $link ) );
+							$query = mysqli_query( $link, "select * from tb_guru LIMIT $mulai, 10" )or die( mysqli_error( $link ) );
 							$no = $mulai + 1;
 							$ketemu = mysqli_num_rows( $query );
 							if ( $ketemu > 0 ) {
@@ -104,8 +102,15 @@
 									<?php echo $data['nama']; ?>
 								</td>
 								<td>
+									<?php  
+									$sql_jabatan = "select * from tb_jabatan where kode_jabatan='".$data['kode_jabatan']."'";
+									$res_jabatan = mysqli_query($link,$sql_jabatan);
+									$data_jabatan = mysqli_fetch_array($res_jabatan);
+									echo $data_jabatan['nama_jabatan']; ?>
+								</td>
+								<td>
 									<center>
-										<img class="img-rounded" src="../foto_guru/<?php echo $data['foto'];?>" width="75" height="75">
+										<img class="img-rounded" src="../images/guru/<?php echo $data['foto'];?>" width="75" height="75">
 									</center>
 								</td>
 								<td>
@@ -178,7 +183,19 @@
 															<tr>
 																<td>Foto</td>
 																<td>
-																	<img src="../foto_guru/<?php echo $data['foto']; ?>" class="img-rounded" width="100" height="100">
+																	<img src="../images/guru/<?php echo $data['foto']; ?>" class="img-rounded" width="100" height="100">
+																</td>
+															</tr>
+															<tr>
+																<td>Status</td>
+																<td>
+																	<?php 
+																		if ($data['status']==0) {
+																				echo "Aktif";
+																			}else {
+																				echo "Tidak Aktif";
+																			}	
+																	?>
 																</td>
 															</tr>
 														</table>
@@ -192,13 +209,7 @@
 
 										<a href="#edit_data" class="btn btn-default btn-small" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'nuptk' ]; ?>">
 											<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-										</a>
-									
-
-										<a href="proses_hapus_data_guru.php?nuptk=<?php echo $data[ 'nuptk' ]; ?>" class="btn btn-default btn-small" onClick="return confirm('Apakah anda yakin ingin menghapus data guru?');" id="custId" data-toggle="modal" data-id="<?php echo $data[ 'nuptk' ]; ?>">
-											<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-										</a>
-									
+										</a>						
 
 									</center>
 								</td>

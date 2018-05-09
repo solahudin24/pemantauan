@@ -40,10 +40,6 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 
 					<ul class="dropdown-menu dropdown-user">
-						<li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-						</li>
-						<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-						</li>
 						<li class="divider"></li>
 						<li><a href="../logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 						</li>
@@ -92,7 +88,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 				require('tampil_kelas.php');
 			}
 		} else {
-			require( 'tampil_guru.php' );
+			require( 'tampil_dashboard.php' );
 		}
 		?>
 

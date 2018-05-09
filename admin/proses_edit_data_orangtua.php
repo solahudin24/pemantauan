@@ -3,22 +3,18 @@ session_start();
 include "../koneksi.php";
 $link = koneksi_db();
 if ( isset( $_POST[ 'submit' ] ) ) {
-	$nis = $_POST[ 'nis' ];
+	$id_orangtua = $_POST[ 'id_orangtua' ];
 
-	$sql_ambil_foto = "select * from tb_siswa where nis='$nis';";
+	$sql_ambil_foto = "select * from tb_orangtua where id_orangtua='$id_orangtua';";
 	$res_ambil_foto = mysqli_query( $link, $sql_ambil_foto );
 	$data_ambil_foto = mysqli_fetch_array( $res_ambil_foto );
 
-	$nis = $_POST[ 'nis' ];
-	$nama_siswa = $_POST[ 'nama' ];
-	$alamat = $_POST[ 'alamat' ];
-	$password = $_POST[ 'password' ];
-	$tempat_lahir = $_POST[ 'tempat_lahir' ];
-	$tgl_lahir = $_POST[ 'tgl_lahir' ];
-	$id_kelas = $_POST[ 'id_kelas' ];
-	$id_orangtua = $_POST['id_orangtua'];
+	$id_orangtua=$_POST['id_orangtua'];
+	$nama_orangtua=$_POST['nama'];
+	$alamat=$_POST['alamat'];
+	$no_telp=$_POST['no_telp'];
+	$password=$_POST['password'];
 	$status=$_POST['status'];
-	$nuptk=$_POST['nuptk'];
 
 	$time = time();
 	$nama = $_FILES[ 'foto' ][ 'name' ];
@@ -33,11 +29,11 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 			if ( $format == "jpg" || $format == "png" || $format == "jpeg" || $format == "JPG" || $format == "PNG" || $format == "JPEG" || $format == "" ) {
 
 				if ( $error == 4 ) {
-					$sql = "UPDATE `tb_siswa` SET `nis`='$nis',`nama`='$nama_siswa',`alamat`='$alamat',`password`='$password',`tempat_lahir`='$tempat_lahir',`tgl_lahir`='$tgl_lahir',`id_kelas`='$id_kelas',`id_orangtua`='$id_orangtua',status = '$status',nuptk='$nuptk' WHERE nis='" . $_GET[ 'nis' ] . "'";
+					$sql = "UPDATE `tb_orangtua` SET `id_orangtua`='$id_orangtua',`nama`='$nama_orangtua',`alamat`='$alamat',`password`='$password',`no_telp`='$no_telp',status = '$status' WHERE id_orangtua='" . $_GET[ 'id_orangtua' ] . "'";
 
 				} else {
 					$format2 = "." . $format;
-					$namafile = "../images/siswa/" . $nama;
+					$namafile = "../images/orangtua/" . $nama;
 					$namafile = str_replace( $format2, "", $namafile );
 					$namafile = $namafile . "_" . $time . $format2;
 					move_uploaded_file( $tmp_name, $namafile );
@@ -45,12 +41,12 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 					$nama1 = $nama1 . "_" . $time . $format2;
 
 					if ( $data_ambil_foto[ 'foto' ] != "foto-default.jpg" ) {
-						if ( file_exists( "../images/siswa/" . $data_ambil_foto[ 'foto' ] ) ) {
-							unlink( "../images/siswa/" . $data_ambil_foto[ 'foto' ] );
+						if ( file_exists( "../images/orangtua/" . $data_ambil_foto[ 'foto' ] ) ) {
+							unlink( "../images/orangtua/" . $data_ambil_foto[ 'foto' ] );
 						}
 					}
 
-					$sql = "UPDATE `tb_siswa` SET `nis`='$nis',`nama`='$nama_siswa',`alamat`='$alamat',`password`='$password',`tempat_lahir`='$tempat_lahir',`tgl_lahir`='$tgl_lahir',`id_kelas`='$id_kelas',`id_orangtua`='$id_orangtua',status = '$status', foto = '$nama1',nuptk='$nuptk' WHERE nis='" . $_GET[ 'nis' ] . "'";
+					$sql = "UPDATE `tb_orangtua` SET `id_orangtua`='$id_orangtua',`nama`='$nama_orangtua',`alamat`='$alamat',`password`='$password',`no_telp`='$no_telp',status = '$status',foto = '$nama1' WHERE id_orangtua='" . $_GET[ 'id_orangtua' ] . "'";
 
 				}
 
@@ -61,14 +57,14 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 					$_SESSION[ 's_pesan' ] = "Data Berhasil Diubah!"
 					?>
 					<script language="javascript">
-						document.location.href = "home_admin.php?tampil=siswa";
+						document.location.href = "home_admin.php?tampil=orangtua";
 					</script>
 					<?php
 				} else {
 					$_SESSION[ 's_pesan' ] = "Data Gagal Diubah!"
 					?>
 					<script language="javascript">
-						document.location.href = "home_admin.php?tampil=siswa";
+						document.location.href = "home_admin.php?tampil=orangtua";
 					</script>
 					<?php
 				}
@@ -78,7 +74,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 				$_SESSION[ 's_pesan' ] = "format harus berbentuk JPG/PNG/JPEG";
 				?>
 				<script language="javascript">
-					document.location.href = "home_admin.php?tampil=siswa";
+					document.location.href = "home_admin.php?tampil=orangtua";
 				</script>
 				<?php
 			}
@@ -86,7 +82,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 			$_SESSION[ 's_pesan' ] = "size file terlalu besar";
 			?>
 			<script language="javascript">
-				document.location.href = "home_admin.php?tampil=siswa";
+				document.location.href = "home_admin.php?tampil=orangtua";
 			</script>
 			<?php
 		}
@@ -95,7 +91,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 
 		?>
 		<script language="javascript">
-			document.location.href = "home_admin.php?tampil=siswa";
+			document.location.href = "home_admin.php?tampil=orangtua";
 		</script>
 		<?php
 	}

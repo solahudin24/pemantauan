@@ -1,7 +1,7 @@
 <?php 
 	require "../koneksi.php";
 	$link = koneksi_db();
-	$title = 'Orangtua Siswa SLB C Sukapura Kota Bandung';
+	$title = 'Administrator SLB C Sukapura Kota Bandung';
 	$halaman = 'admin';
 	require( '../header.php' );
 ?>
@@ -23,7 +23,7 @@
 		}
 	</style>
 
-<body>
+<body onload="initialize()">
 	<div id="wrapper">
 
 		<!-- Navigation -->
@@ -38,7 +38,7 @@
 			
 
 
-				<a class="navbar-brand" href="../orangtua/home_ortu.php">Orangtua</a>
+				<a class="navbar-brand" href="home_admin.php">Orangtua</a>
 			</div>
 			<!-- /.navbar-header -->
 
@@ -52,8 +52,12 @@
 
 
 					<ul class="dropdown-menu dropdown-user">
+						<li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+						</li>
+						<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+						</li>
 						<li class="divider"></li>
-						<li><a href="../logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+						<li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 						</li>
 					</ul>
 					<!-- /.dropdown-user -->
@@ -84,73 +88,63 @@
       // This example creates a simple polygon representing the Bermuda Triangle.
       // When the user clicks on the polygon an info window opens, showing
       // information about the polygon's coordinates.
-
-      var map;
-      var infoWindow;
-
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
+      var marker;
+      function initialize() {
+          
+        // Variabel untuk menyimpan informasi (desc)
+        var infoWindow = new google.maps.InfoWindow;
+        
+        //  Variabel untuk menyimpan peta Roadmap
+        var mapOptions = {
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        } 
+        
+        // Pembuatan petanya
+        var map = new google.maps.Map(document.getElementById('map'){
           zoom: 25,
           center: {lat: -6.930447, lng: 107.654425},
           mapTypeId: 'terrain'
         });
+              
+        // Variabel untuk menyimpan batas kordinat
+        var bounds = new google.maps.LatLngBounds();
 
-        var myLatLng = {lat: lat, lng: longitude};
-
-		  var marker = new google.maps.Marker({
-		    position: myLatLng,
-		    map: map,
-		    title: nama
-		  });
-
-
-        // Define the LatLng coordinates for the polygon.
-        var triangleCoords = [
-            {lat: -6.930547, lng: 107.654587},//kanan bawah
-            {lat: -6.930447, lng: 107.654325},///kiri bawah
-            {lat: -6.930347, lng: 107.654395},//kiri atas
-            {lat: -6.930437, lng: 107.654628} //kanan atas
-        ];
-
-        // Construct the polygon.
-        var bermudaTriangle = new google.maps.Polygon({
-          paths: triangleCoords,
-          strokeColor: '#FF0000',
-          strokeOpacity: 0.8,
-          strokeWeight: 3,
-          fillColor: '#FF0000',
-          fillOpacity: 0.35
-        });
-        bermudaTriangle.setMap(map);
-
-        // Add a listener for the click event.
-        bermudaTriangle.addListener('click', showArrays);
-
-        infoWindow = new google.maps.InfoWindow;
-      }
-
-      /** @this {google.maps.Polygon} */
-      function showArrays(event) {
-        // Since this polygon has only one path, we can call getPath() to return the
-        // MVCArray of LatLngs.
-        var vertices = this.getPath();
-
-        var contentString = '<b>Bermuda Triangle polygon</b><br>' +
-            'Clicked location: <br>' + event.latLng.lat() + ',' + event.latLng.lng() +
-            '<br>';
-
-        // Iterate over the vertices.
-        for (var i =0; i < vertices.getLength(); i++) {
-          var xy = vertices.getAt(i);
-          contentString += '<br>' + 'Coordinate ' + i + ':<br>' + xy.lat() + ',' +
-              xy.lng();
+        // Pengambilan data dari database
+        <?php
+            $query = mysqli_query($con,"select * from tb_siswa");
+            while ($data = mysqli_fetch_array($query))
+            {
+                $nama = $data['nama'];
+                $lat = $data['lat'];
+                $lon = $data['lonngitude'];
+                
+                echo ("addMarker($lat, $lon, '<b>$nama</b>');\n");                        
+            }
+          ?>
+          
+        // Proses membuat marker 
+        function addMarker(lat, lng, info) {
+            var lokasi = new google.maps.LatLng(lat, lng);
+            bounds.extend(lokasi);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: lokasi
+            });       
+            map.fitBounds(bounds);
+            bindInfoWindow(marker, map, infoWindow, info);
+         }
+        
+        // Menampilkan informasi pada masing-masing marker yang diklik
+        function bindInfoWindow(marker, map, infoWindow, html) {
+          google.maps.event.addListener(marker, 'click', function() {
+            infoWindow.setContent(html);
+            infoWindow.open(map, marker);
+          });
         }
-
-        // Replace the info window's content and position.
-        infoWindow.setContent(contentString);
-        infoWindow.setPosition(event.latLng);
-
-        infoWindow.open(map);
+ 
+        }
+      google.maps.event.addDomListener(window, 'load', initialize);
+      
       }
     </script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeSbTd4xPktRSQwbytnDN33ugM6sJrq_0&callback=initMap">

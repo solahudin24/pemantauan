@@ -19,8 +19,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 	$tmp_name = $_FILES[ 'foto' ][ 'tmp_name' ];
 	$type = $_FILES[ 'foto' ][ 'type' ];
 	$format = pathinfo( $nama, PATHINFO_EXTENSION );
-	echo $error;
-	echo $format;
+	
 
 	if ( $error == 0 || $error == 4 ) {
 		if ( $size < 5000000 ) {
@@ -30,7 +29,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 					$nama1 = "foto-default.jpg";
 				} else {
 					$format2 = "." . $format;
-					$namafile = "../foto_guru/" . $nama;
+					$namafile = "../images/guru/" . $nama;
 					$namafile = str_replace( $format2, "", $namafile );
 					$namafile = $namafile . "_" . $time . $format2;
 					move_uploaded_file( $tmp_name, $namafile );
@@ -68,7 +67,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 				<?php
 			}
 		} else {
-			$_SESSION[ 's_pesan' ] = "size file kegedean";
+			$_SESSION[ 's_pesan' ] = "size file terlalu besar";
 			?>
 			<script language="javascript">
 				document.location.href = "home_admin.php?tampil=guru";

@@ -23,19 +23,19 @@ if ( isset( $_POST[ 'idx' ] ) ) {
 		<form action="proses_edit_data_guru.php?nuptk=<?php echo $nuptk; ?>" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');" enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="nuptk">NUPTK:</label>
-				<input type="text" class="form-control" readonly name="nuptk" value="<?php echo $row['nuptk']; ?>">
+				<input type="text" class="form-control" readonly name="nuptk" value="<?php echo $row['nuptk']; ?>" required>
 			</div>
 			<div class="form-group">
 				<label for="nip">NIP:</label>
-				<input type="text" class="form-control" name="nip" value="<?php echo $row['nip']; ?>">
+				<input type="text" class="form-control" name="nip" value="<?php echo $row['nip']; ?>" required>
 			</div>
 			<div class="form-group">
 				<label for="nama">Nama Guru:</label>
-				<input type="text" class="form-control" name="nama" value="<?php echo $row['nama']; ?>">
+				<input type="text" class="form-control" name="nama" value="<?php echo $row['nama']; ?>" required>
 			</div>
 			<div class="form-group">
 				<label for="password">Password:</label>
-				<input type="text" class="form-control" name="password" value="<?php echo $row['password']; ?>">
+				<input type="text" class="form-control" name="password" value="<?php echo $row['password']; ?>" required>
 			</div>
 			<div class="form-group">
 				<label for="tempat_lahir">Tempat Lahir:</label>
@@ -87,7 +87,31 @@ if ( isset( $_POST[ 'idx' ] ) ) {
 				<label for="foto">Foto:</label>
 				<input type="file" class="form-control" name="foto" >
 			</div>
+			<div class="form-group">
+				<label for="status">Status:</label>
+				<select name="status" class="form-control">
+				<option value="<?php echo $row['status']; echo "selected"; ?>">
+				<?php
+					if ($row['status']==0) {
+						echo "Aktif";
+					}else {
+						echo "Tidak Aktif";
+					}
+				?>
+				</option>
+				<?php
+					if ($row['status']==0) {
+						echo "<option value='1'>Tidak Aktif";
+					}else {
+						echo "<option value='0'>Aktif";
+					}
+				?>
+				</option>
+				</select>
+			</div>
+			<div>
 			<button type="submit" class="btn btn-primary" name="submit">Simpan</button>
+			</div>
 		</form>
 
 
@@ -99,82 +123,215 @@ if ( isset( $_POST[ 'idx' ] ) ) {
 	$res = mysqli_query( $link, $query );
 	while ( $row = mysqli_fetch_assoc( $res ) ) {
 		?>
-		<form action="proses_edit_data_siswa.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');">
+		<form action="proses_edit_data_siswa.php?nis=<?php echo $nis; ?>" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');" enctype="multipart/form-data">
 			<div class="form-group">
-				<label for="nis">NIS:</label>
-				<input type="text" class="form-control" name="nis" value="<?php echo $row['nis']; ?>">
+				<label for="nuptk">NIS:</label>
+				<input type="text" class="form-control" readonly name="nis" value="<?php echo $row['nis']; ?>" required>
 			</div>
 			<div class="form-group">
 				<label for="nama">Nama Siswa:</label>
-				<input type="text" class="form-control" name="nama" value="<?php echo $row['nama']; ?>">
-			</div>
-			<div class="form-group">
-				<label for="alamat">Alamat:</label>
-				<input type="text" class="form-control" name="alamat" value="<?php echo $row['alamat']; ?>">
+				<input type="text" class="form-control" name="nama" value="<?php echo $row['nama']; ?>" required>
 			</div>
 			<div class="form-group">
 				<label for="password">Password:</label>
-				<input type="text" class="form-control" name="password" value="<?php echo $row['password']; ?>">
+				<input type="text" class="form-control" name="password" value="<?php echo $row['password']; ?>" required>
 			</div>
+			<div class="form-group">
+				<label for="tempat_lahir">Tempat Lahir:</label>
+				<input type="text" class="form-control" name="tempat_lahir" value="<?php echo $row['tempat_lahir']; ?>" required>
+			</div>
+			<div class="form-group">
+				<label for="tgl_lahir">Tanggal Lahir:</label>
+				<input type="date" class="form-control" name="tgl_lahir" value="<?php echo $row['tgl_lahir']; ?>" required>
+			</div>
+			<div class="form-group">
+				<label for="id_kelas">Kelas:</label>
+				<select name="id_kelas" class="form-control">
+					<?php
+					//								$link = koneksi_db();
+					$sql = "SELECT * FROM tb_kelas";
+					$res = mysqli_query( $link, $sql );
+					while ( $data_kelas = mysqli_fetch_array( $res ) ) {
+						?>
+					<option value="<?php echo $data_kelas['id_kelas']; ?>" <?php if($row['id_kelas']==$data_kelas['id_kelas']){ echo "selected"; } ?> >
+						<?php echo $data_kelas['kelas']." ".$data_kelas['tingkatan']; ?>
+					</option>
+					<?php
+					}
+					//								$link -> close();
+					?>
 
-			<!--                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#konfirmasi2">Simpan</button>-->
-			<button type="submit" class="btn btn-primary">Simpan</button>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="id_orangtua">Orangtua:</label>
+				<select name="id_orangtua" class="form-control">
+					<?php
+					//								$link = koneksi_db();
+					$sql = "SELECT * FROM tb_orangtua where Status='0'";
+					$res = mysqli_query( $link, $sql );
+					while ( $data_orangtua = mysqli_fetch_array( $res ) ) {
+						?>
+					<option value="<?php echo $data_orangtua['id_orangtua']; ?>" <?php if($row['id_orangtua']==$data_orangtua['id_orangtua']){ echo "selected"; } ?>>
+						<?php echo $data_orangtua['nama']; ?>
+					</option>
+					<?php
+					}
+					//								$link -> close();
+					?>
+
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="nuptk">Guru:</label>
+				<select name="nuptk" class="form-control">
+					<?php
+					//								$link = koneksi_db();
+					$sql = "SELECT * FROM tb_guru where Status='0'";
+					$res = mysqli_query( $link, $sql );
+					while ( $data_guru = mysqli_fetch_array( $res ) ) {
+						?>
+					<option value="<?php echo $data_guru['nuptk']; ?>" <?php if($row['nuptk']==$data_guru['nuptk']){ echo "selected"; } ?>>
+						<?php echo $data_guru['nama']; ?>
+					</option>
+					<?php
+					}
+					//								$link -> close();
+					?>
+
+				</select>
+			</div>
+			<div class="form-group">
+                 <label for="alamat">Alamat :</label>
+                       <textarea class="form-control" rows="3" name="alamat"><?php echo $row['alamat'];?></textarea>
+            </div>
+			<div class="form-group">
+				<label for="foto">Foto:</label>
+				<input type="file" class="form-control" name="foto" >
+			</div>
+			<div class="form-group">
+				<label for="status">Status:</label>
+				<select name="status" class="form-control">
+				<option value="<?php echo $row['status']; echo "selected"; ?>">
+				<?php
+					if ($row['status']==0) {
+						echo "Aktif";
+					}else {
+						echo "Tidak Aktif";
+					}
+				?>
+				</option>
+				<?php
+					if ($row['status']==0) {
+						echo "<option value='1'>Tidak Aktif";
+					}else {
+						echo "<option value='0'>Aktif";
+					}
+				?>
+				</option>
+				</select>
+			</div>
+			<div>
+			<button type="submit" class="btn btn-primary" name="submit">Simpan</button>
+			</div>
 		</form>
-
 
 
 		<?php
 	}
 } else if ( isset( $_POST[ 'id_orangtua' ] ) ) {
 	$id_orangtua = $_POST[ 'id_orangtua' ];
-	$query = "SELECT * FROM tb_orangtua WHERE id_orangtua = $id_orangtua";
+	$query = "SELECT * FROM tb_orangtua WHERE id_orangtua = '$id_orangtua'";
 	$res = mysqli_query( $link, $query );
 	while ( $row = mysqli_fetch_assoc( $res ) ) {
 		?>
-		<form action="proses_edit_data_orangtua.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');">
+		<form action="proses_edit_data_orangtua.php?id_orangtua=<?php echo $id_orangtua; ?>" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');" enctype="multipart/form-data">
 			<div class="form-group">
-				<label for="nis">Id Orangtua :</label>
-				<input type="text" class="form-control" name="id_orangtua" value="<?php echo $row['id_orangtua']; ?>">
+				<label for="id_orangtua">Id Orangtua:</label>
+				<input type="text" class="form-control" readonly name="id_orangtua" value="<?php echo $row['id_orangtua']; ?>" required>
 			</div>
 			<div class="form-group">
 				<label for="nama">Nama Orangtua:</label>
-				<input type="text" class="form-control" name="nama" value="<?php echo $row['nama']; ?>">
-			</div>
-			<div class="form-group">
-				<label for="alamat">Alamat:</label>
-				<input type="text" class="form-control" name="alamat" value="<?php echo $row['alamat']; ?>">
+				<input type="text" class="form-control" name="nama" value="<?php echo $row['nama']; ?>" required>
 			</div>
 			<div class="form-group">
 				<label for="password">Password:</label>
-				<input type="text" class="form-control" name="password" value="<?php echo $row['password']; ?>">
+				<input type="text" class="form-control" name="password" value="<?php echo $row['password']; ?>" required>
 			</div>
-
-			<!--                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#konfirmasi2">Simpan</button>-->
-			<button type="submit" class="btn btn-primary">Simpan</button>
+			<div class="form-group">
+                 <label for="alamat">Alamat :</label>
+                       <textarea class="form-control" rows="3" name="alamat"><?php echo $row['alamat'];?></textarea>
+            </div>
+            <div class="form-group">
+                 <label for="no_telp">Nomor Telepon :</label>
+                       <input type="text" class="form-control" name="no_telp" value= "<?php echo $row['no_telp']; ?>">
+            </div>
+			<div class="form-group">
+				<label for="foto">Foto:</label>
+				<input type="file" class="form-control" name="foto" >
+			</div>
+			<div class="form-group">
+				<label for="status">Status:</label>
+				<select name="status" class="form-control">
+				<option value="<?php echo $row['status']; echo "selected"; ?>">
+				<?php
+					if ($row['status']==0) {
+						echo "Aktif";
+					}else {
+						echo "Tidak Aktif";
+					}
+				?>
+				</option>
+				<?php
+					if ($row['status']==0) {
+						echo "<option value='1'>Tidak Aktif";
+					}else {
+						echo "<option value='0'>Aktif";
+					}
+				?>
+				</option>
+				</select>
+			</div>
+			<div>
+			<button type="submit" class="btn btn-primary" name="submit">Simpan</button>
+			</div>
 		</form>
-
 
 
 		<?php
 	}
 } else if ( isset( $_POST[ 'id_kelas' ] ) ) {
 	$id_kelas = $_POST[ 'id_kelas' ];
-	$query = "SELECT * FROM tb_kelas WHERE id_kelas = $id_kelas";
+	$query = "SELECT * FROM tb_kelas WHERE id_kelas = '$id_kelas'";
 	$res = mysqli_query( $link, $query );
 	while ( $row = mysqli_fetch_assoc( $res ) ) {
 		?>
-		<form action="proses_edit_data_kelas.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');">
+		<form action="proses_edit_data_kelas.php?id_kelas=<?php echo $id_kelas; ?>" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');" enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="nis">Id Kelas :</label>
-				<input type="text" class="form-control" name="id_kelas" value="<?php echo $row['id_kelas']; ?>">
+				<input type="text" class="form-control" readonly name="id_kelas" value="<?php echo $row['id_kelas']; ?>">
 			</div>
 			<div class="form-group">
 				<label for="nama">Kelas:</label>
-				<input type="text" class="form-control" name="Kelas" value="<?php echo $row['Kelas']; ?>">
+				<input type="text" class="form-control" name="kelas" value="<?php echo $row['kelas']; ?>">
 			</div>
 			<div class="form-group">
 				<label for="alamat">Tingkatan:</label>
-				<input type="text" class="form-control" name="tingkatan" value="<?php echo $row['tingkatan']; ?>">
+				<select class="form-control" name='tingkatan'>
+				<?php if ($row['tingkatan']=='SDLB') {
+					echo "<option value='SDLB' selected>SDLB</option>";
+                    echo "<option value='SMPLB'>SMPLB</option>";
+                    echo "<option value='SMALB'>SMALB</option>";
+				}else if ($row['tingkatan']=='SMPLB') {
+					echo "<option value='SDLB'>SDLB</option>";
+                    echo "<option value='SMPLB' selected>SMPLB</option>";
+                    echo "<option value='SMALB'>SMALB</option>";
+				} else if ($row['tingkatan']=='SMALB') {
+					echo "<option value='SDLB'>SDLB</option>";
+                    echo "<option value='SMPLB'>SMPLB</option>";
+                    echo "<option value='SMALB' selected>SMALB</option>";
+				}?>
+				</select>
 			</div>
 			<div class="form-group">
 				<label for="password">Jam Masuk:</label>
@@ -184,35 +341,33 @@ if ( isset( $_POST[ 'idx' ] ) ) {
 				<label for="password">Jam Keluar:</label>
 				<input type="text" class="form-control" name="jam_keluar" value="<?php echo $row['jam_keluar']; ?>">
 			</div>
-
-			<!--                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#konfirmasi2">Simpan</button>-->
-			<button type="submit" class="btn btn-primary">Simpan</button>
+			<div>
+			<button type="submit" class="btn btn-primary" name="submit">Simpan</button>
+			</div>
 		</form>
-
 
 
 		<?php
 	}
 } else if ( isset( $_POST[ 'kode_jabatan' ] ) ) {
 	$kode_jabatan = $_POST[ 'kode_jabatan' ];
-	$query = "SELECT * FROM tb_jabatan WHERE kode_jabatan = $kode_jabatan";
+	$query = "SELECT * FROM tb_jabatan WHERE kode_jabatan = '$kode_jabatan'";
 	$res = mysqli_query( $link, $query );
 	while ( $row = mysqli_fetch_assoc( $res ) ) {
 		?>
-		<form action="proses_edit_data_jabatan.php" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');">
+		<form action="proses_edit_data_jabatan.php?kode_jabatan=<?php echo $kode_jabatan; ?>" method="POST" onSubmit="return confirm('Apakah anda yakin ingin menyimpan data?');" enctype="multipart/form-data">
 			<div class="form-group">
-				<label for="nis">Kode Jabatan :</label>
-				<input type="text" class="form-control" name="kode_jabatan" value="<?php echo $row['kode_jabatan']; ?>">
+				<label for="kode_jabatan">Kode Jabatan:</label>
+				<input type="text" class="form-control" readonly name="kode_jabatan" value="<?php echo $row['kode_jabatan']; ?>" required>
 			</div>
 			<div class="form-group">
-				<label for="nama">Nama Jabatan:</label>
-				<input type="text" class="form-control" name="nama_jabatan" value="<?php echo $row['nama_jabatan']; ?>">
+				<label for="nama_jabatan">Nama Jabatan:</label>
+				<input type="text" class="form-control" name="nama_jabatan" value="<?php echo $row['nama_jabatan']; ?>" required>
 			</div>
-
-			<!--                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#konfirmasi2">Simpan</button>-->
-			<button type="submit" class="btn btn-primary">Simpan</button>
+			<div>
+			<button type="submit" class="btn btn-primary" name="submit">Simpan</button>
+			</div>
 		</form>
-
 
 
 		<?php
