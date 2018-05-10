@@ -10,9 +10,9 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 		<table width="100%" class="table table-striped table-bordered table-hover">
 			<tr>
 				<td colspan="2">
-				<center>
-					<img src="../images/siswa/<?php echo $data['foto']; ?>" class="img-rounded" width="240" height="320">
-				</center>
+					<center>
+						<img src="../images/siswa/<?php echo $data['foto']; ?>" class="img-rounded" width="240" height="320">
+					</center>
 				</td>
 			</tr>
 			<tr>
@@ -67,7 +67,19 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 				<td>Lokasi</td>
 				<td>
 					<?php
-					echo $data['lat'].",".$data['longitude'];
+
+					function getaddress( $lat, $lng ) {
+						$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' . trim( $lat ) . ',' . trim( $lng ) . '&sensor=false';
+						$json = @file_get_contents( $url );
+						$data = json_decode( $json );
+						$status = $data->status;
+						if ( $status == "OK" ) {
+							return $data->results[ 0 ]->formatted_address;
+						} else {
+							return false;
+						}
+					}
+					echo getaddress($data[ 'lat' ],$data[ 'longitude' ]);
 					?>
 				</td>
 			</tr>
@@ -75,7 +87,7 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 				<td>Baterai</td>
 				<td>
 					<?php
-					echo $data['baterai']."%";
+					echo $data[ 'baterai' ] . "%";
 					?>
 				</td>
 			</tr>
@@ -83,7 +95,7 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 				<td>Update Terakhir</td>
 				<td>
 					<?php
-					echo $data['update_time'];
+					echo $data[ 'update_time' ];
 					?>
 				</td>
 			</tr>
@@ -92,4 +104,5 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 
 		<?php
 	}
-}?>
+}
+?>
