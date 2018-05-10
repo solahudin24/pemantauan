@@ -4,7 +4,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 	require "../koneksi.php";
 	$link = koneksi_db();
 	$title = 'Guru SLB C Sukapura Kota Bandung';
-	$halaman = 'admin';
+	$halaman = 'guru';
 	require( '../header.php' );
 
 	if ( isset( $_SESSION[ 's_pesan' ] ) ) {
@@ -17,6 +17,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 
 
+
 			<?php echo $_SESSION['s_pesan']; ?>
 		</div>
 		<?php
@@ -24,23 +25,6 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 	}
 
 	?>
-	<style>
-		/* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-		/* Optional: Makes the sample page fill the window. */
-		
-		html,
-		body {
-			height: 100%;
-			margin: 20;
-			padding: 20;
-		}
-		
-		#map {
-			height: 400px;
-			width: 100%;
-		}
-	</style>
 	<div id="wrapper">
 
 		<!-- Navigation -->
@@ -56,6 +40,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 
 
+
 				<a class="navbar-brand" href="../guru/home_guru.php">Guru </a>
 			</div>
 			<!-- /.navbar-header -->
@@ -66,11 +51,6 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 						<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
 					</a>
-				
-
-
-
-
 					<ul class="dropdown-menu dropdown-user">
 						<li class="divider"></li>
 						<li><a href="#ubah_pw" id="custId" data-toggle="modal" data-id="<?php echo $_SESSION['s_nuptk'];?>"><i class="fa fa-edit fa-fw"></i> Ubah Password</a>
@@ -95,10 +75,6 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 									echo "<li>";
 									?><a class="img-rounded" href="#detail_siswa" id="custId" data-toggle="modal" data-id="<?php echo $data['nis'];?>"> 
 									<img src="../images/siswa/<?php echo $data['foto'];?>" width="75" height="75"><?php echo $data['nama'];?></a>
-							
-
-
-
 								<?php echo "</li>";
 								}
 								?>
@@ -114,52 +90,44 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 		<!-- isi -->
 		<div id="page-wrapper">
-			<div id="map"></div>
-			<script>
-				// This example creates a simple polygon representing the Bermuda Triangle.
-				// When the user clicks on the polygon an info window opens, showing
-				// information about the polygon's coordinates.
+			<div id="map_canvas" style="width: 800px; height: 600px"></div>
+			<script type="text/javascript">
+				//Icons
+				var customIcons = {
+					free: {
+						icon: '../images/pin-green.png',
+						shadow: 'http://labs.google.com/ridefinder/images/mm_20_shadow.png'
+					},
+					busy: {
+						icon: '../images/pin-red.png',
+						shadow: 'http://labs.google.com/ridefinder/images/mm_20_shadow.png'
+					}
+				};
 
-				var map;
-				var infoWindow;
-				
-				function initMap() {
-					map = new google.maps.Map( document.getElementById( 'map' ), {
-						zoom: 25,
-						center: {
-							lat: -6.930447,
-							lng: 107.654425
-						},
-						mapTypeId: 'terrain'
-					} );
-					<?php 
-						$marker = "marker";
-						$latlng = "myLatLng";
-						$nilai = 1;
-						$sql_siswa = "select * from tb_siswa where status='0' and id_kelas = '".$_SESSION[ 's_id_kelas']."'";
-						$res_siswa = mysqli_query($link,$sql_siswa);
-						while($data_siswa = mysqli_fetch_array($res_siswa)){
-							
-					?>
-							var  <?php echo $latlng.$nilai; ?> = {
-								lat: <?php echo $data_siswa['lat']; ?>,
-								lng: <?php echo $data_siswa['longitude']; ?>
-							};
+				//Popup dos markers
+				var infoWindow = null;
 
-							var <?php echo $marker.$nilai; ?> = new google.maps.Marker( {
-								position: <?php echo $latlng.$nilai; ?>,
-								map: map,
-								title: '<?php echo $data_siswa['nama']; ?>'
-							} );
-					<?php
-							$nilai= $nilai + 1;
-						}
-						
-					?>
+				//Visibilitas peta harus bersifat global
+				var map = null;
 
+				//Ini adalah susunan global penanda yang ada di layar
+				var markersArray = [];
 
+				/*
+				 * Inisialisasi Google Maps API
+				 */
+				function initialize() {
 
-					// Define the LatLng coordinates for the polygon.
+					//Saya tidak akan menjelaskan yang jelas !!!
+					var myLatlng = new google.maps.LatLng( -6.930447, 107.654425 );
+					var myOptions = {
+						zoom: 21,
+						center: myLatlng,
+						mapTypeId: google.maps.MapTypeId.ROADMAP
+					}
+					map = new google.maps.Map( document.getElementById( "map_canvas" ),
+						myOptions );
+					
 					var triangleCoords = [ {
 							lat: -6.930547,
 							lng: 107.654587
@@ -189,37 +157,84 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 					} );
 					bermudaTriangle.setMap( map );
 
-					// Add a listener for the click event.
-					bermudaTriangle.addListener( 'click', showArrays );
-
 					infoWindow = new google.maps.InfoWindow;
+
+					//Metode ini saya buat untuk melakukan pemuatan penanda pada peta
+					//Eksekusi segera !!!
+					updateMaps();
+
+					//Kami juga mendefinisikan eksekusi dengan interval waktu
+					window.setInterval( updateMaps, 5000 );
+
 				}
 
-				/** @this {google.maps.Polygon} */
-				function showArrays( event ) {
-					// Since this polygon has only one path, we can call getPath() to return the
-					// MVCArray of LatLngs.
-					var vertices = this.getPath();
-
-					var contentString = '<b>Bermuda Triangle polygon</b><br>' +
-						'Clicked location: <br>' + event.latLng.lat() + ',' + event.latLng.lng() +
-						'<br>';
-
-					// Iterate over the vertices.
-					for ( var i = 0; i < vertices.getLength(); i++ ) {
-						var xy = vertices.getAt( i );
-						contentString += '<br>' + 'Coordinate ' + i + ':<br>' + xy.lat() + ',' +
-							xy.lng();
+				/*
+				 * Metode yang menghapus hamparan dari penanda
+				 */
+				function clearOverlays() {
+					for ( var i = 0; i < markersArray.length; i++ ) {
+						markersArray[ i ].setMap( null );
 					}
-
-					// Replace the info window's content and position.
-					infoWindow.setContent( contentString );
-					infoWindow.setPosition( event.latLng );
-
-					infoWindow.open( map );
 				}
-			</script>
-			<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeSbTd4xPktRSQwbytnDN33ugM6sJrq_0&callback=initMap">
+
+				/*
+				 * Metode yang memanggil jalur data xml
+				 * dan memperbarui peta
+				 */
+				function updateMaps() {
+
+					// Mari kita hapus apa yang sudah overlay
+					// Anda dapat menerapkan penghapusan dan penyisipan selektif
+					clearOverlays();
+
+					//Di sini adalah lompatan kucing, banyak orang kehilangan tidur malam
+					//dan ketika Anda berhenti untuk melihat solusinya, sadarilah bahwa itu sangat jelas
+
+					//Ketika kita memanggil file, browser dapat mengambil keputusan
+					//ke cache. Jika browser menggunakan cache, selanjutnya
+					//permintaan dari sumber yang sama tidak mengenai server.
+
+					//Menentukan pengubah unik untuk file data yang kami dapat "DILAKUKAN"
+					//browser untuk mengunduh file lagi.
+
+					//Di Jawa saya menggunakan header http untuk mengatakan NO-CACHE !!
+
+					var timestamp = new Date().getTime();
+					var data = 'data.php?t=' + timestamp;
+
+					//Me guardo o direito a não explicar o óbvio, novamente
+					$.get( data, {}, function ( data ) {
+						$( data ).find( "marker" ).each(
+							function () {
+								var marker = $( this );
+								var status = marker.attr( "status" )
+								var nis = marker.attr( "nis" )
+								var icon = customIcons[ status ] || {};
+								var latlng = new google.maps.LatLng( parseFloat( marker
+									.attr( "lat" ) ), parseFloat( marker.attr( "lng" ) ) );
+								var html = "<b><a href=\"#detail_siswa\" id=\"custId\" data-toggle=\"modal\" data-id=\""+nis+"\">"+ status + "</b></a>";
+								var marker = new google.maps.Marker( {
+									position: latlng,
+									map: map,
+									icon: icon.icon,
+									shadow: icon.shadow,
+								} );
+
+								google.maps.event.addListener( marker, 'click', function () {
+									infoWindow.setContent( html );
+									infoWindow.open( map, marker );
+								} );
+
+								//Opa... bora guardar as referências dos markers??
+								markersArray.push( marker );
+
+								google.maps.event.addListener( marker, "click", function () {} );
+							} );
+					} );
+
+				}
+
+				google.setOnLoadCallback( initialize );
 			</script>
 
 			<!-- Page-Level Demo Scripts - Tables - Use for reference -->
@@ -298,6 +313,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 		</script>
 
 		<?php 
+		$halaman = 'admin';
 		require('../footer.php');
 	}else{
 		echo( "<script> location.href ='../index.php';</script>" );
