@@ -122,7 +122,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 				var map;
 				var infoWindow;
-
+				
 				function initMap() {
 					map = new google.maps.Map( document.getElementById( 'map' ), {
 						zoom: 25,
@@ -132,26 +132,30 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 						},
 						mapTypeId: 'terrain'
 					} );
-//					<?php 
-//						$marker = "marker";
-//						$latlng = "myLatLng";
-//						$nilai = 1;
-//						while($data_siswa = mysql_fetch_array($res_siswa)){
-//					?>
-//							var <?php echo $latlng.$nilai; ?> = {
-//								lat: <?php echo $data_siswa['lat']; ?>,
-//								lng: <?php echo $data_siswa['longitude']; ?>
-//							};
-//
-//							var <?php echo $marker.$nilai; ?> = new google.maps.Marker( {
-//								position: <?php echo $latlng.$nilai; ?>,
-//								map: map,
-//								title: '<?php echo $data_siswa['nama']; ?>'
-//							} );
-//					<?php
-//							$nilai= $nilai + 1;
-//						}
-//					?>
+					<?php 
+						$marker = "marker";
+						$latlng = "myLatLng";
+						$nilai = 1;
+						$sql_siswa = "select * from tb_siswa where status='0' and id_kelas = '".$_SESSION[ 's_id_kelas']."'";
+						$res_siswa = mysqli_query($link,$sql_siswa);
+						while($data_siswa = mysqli_fetch_array($res_siswa)){
+							
+					?>
+							var  <?php echo $latlng.$nilai; ?> = {
+								lat: <?php echo $data_siswa['lat']; ?>,
+								lng: <?php echo $data_siswa['longitude']; ?>
+							};
+
+							var <?php echo $marker.$nilai; ?> = new google.maps.Marker( {
+								position: <?php echo $latlng.$nilai; ?>,
+								map: map,
+								title: '<?php echo $data_siswa['nama']; ?>'
+							} );
+					<?php
+							$nilai= $nilai + 1;
+						}
+						
+					?>
 
 
 
