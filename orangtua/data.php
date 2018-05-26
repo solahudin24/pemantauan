@@ -8,7 +8,7 @@
 <markers>
 <?php
 	$i = 0;
-	$sql_siswa = "select * from tb_siswa where status='0' AND lat IS NOT NULL";
+	$sql_siswa = "select * from tb_siswa where status='0' AND id_orangtua = '".$_SESSION['s_id_orangtua']."' AND lat IS NOT NULL";
 	$res_siswa = mysqli_query($link,$sql_siswa);
 	while($data_siswa = mysqli_fetch_array($res_siswa)){
 		?>

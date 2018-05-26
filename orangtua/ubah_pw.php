@@ -2,8 +2,8 @@
 require( '../koneksi.php' );
 $link = koneksi_db();
 if ( isset( $_POST[ 'id_orangtua' ] ) ) {
-	$id_orangtua = $_POST[ 'id_orangtua' ];
-	$query = "SELECT * FROM tb_orangtua WHERE id_orangtua = $id_orangtua";
+	$id_orangtua= $_POST[ 'id_orangtua' ];
+	$query = "SELECT * FROM tb_orangtua WHERE id_orangtua = '$id_orangtua'";
 	$res = mysqli_query( $link, $query );
 	while ( $row = mysqli_fetch_assoc( $res ) ) {
 		?>
@@ -11,7 +11,7 @@ if ( isset( $_POST[ 'id_orangtua' ] ) ) {
 			<input type="hidden" name="id_orangtua" value="<?php echo $row['id_orangtua']; ?>">
 			<div class="form-group">
 			<center>
-				<img src="../images/orangtua/<?php echo $row['foto']; ?>" class="img-rounded" width="200" height="200">
+				<img src="../images/guru/<?php echo $row['foto']; ?>" class="img-rounded" width="200" height="200">
 			</center>
 			</div>
 			<div class="form-group">

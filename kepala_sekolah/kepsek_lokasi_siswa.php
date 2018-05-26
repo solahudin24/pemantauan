@@ -3,7 +3,7 @@ session_start();
 if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 	require "../koneksi.php";
 	$link = koneksi_db();
-	$title = 'Guru SLB C Sukapura Kota Bandung';
+	$title = 'Kepala Sekolah SLB C Sukapura Kota Bandung';
 	$halaman = 'guru';
 	require( '../header.php' );
 
@@ -73,31 +73,8 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 
 
-				<a class="navbar-brand" href="../guru/home_guru.php">Guru </a>
+				<a class="navbar-brand" href="../kepala_sekolah/home_kepsek.php">Kepala Sekolah </a>
 			</div>
-			<!-- /.navbar-header -->
-
-			<ul class="nav navbar-top-links navbar-right">
-
-				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-					</a>
-				
-
-
-
-					<ul class="dropdown-menu dropdown-user">
-						<li class="divider"></li>
-						<li><a href="#ubah_pw" id="custId" data-toggle="modal" data-id="<?php echo $_SESSION['s_nuptk'];?>"><i class="fa fa-edit fa-fw"></i> Ubah Password</a>
-						</li>
-						<li><a href="../logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-						</li>
-					</ul>
-					<!-- /.dropdown-user -->
-				</li>
-				<!-- /.dropdown -->
-			</ul>
 			<!-- /.navbar-top-links -->
 			<div class="navbar-default sidebar" role="navigation">
 				<div class="sidebar-nav navbar-collapse">
@@ -316,29 +293,6 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 				google.setOnLoadCallback( initialize );
 			</script>
 
-			<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-
-
-			<!-- modal ubah -->
-			<div class="modal fade" id="ubah_pw" tabindex="-1" role="dialog" aria-labelledby="ubah" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<center>
-								<h4 class="modal-title">Ubah Password</h4>
-							</center>
-						</div>
-						<div class="modal-body">
-							<div class="hasil-data"></div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-
 			<!-- modal detail -->
 			<div class="modal fade" id="detail_siswa" tabindex="-1" role="dialog" aria-labelledby="detail" aria-hidden="true">
 				<div class="modal-dialog" role="document">
@@ -360,21 +314,6 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 			</div>
 		</div>
 		<script type="text/javascript">
-			$( document ).ready( function () {
-				$( '#ubah_pw' ).on( 'show.bs.modal', function ( e ) {
-					var idx = $( e.relatedTarget ).data( 'id' ); //harus tetap id, jika tidak akan data tak akan terambil
-					//menggunakan fungsi ajax untuk pengambilan data
-					$.ajax( {
-						type: 'post',
-						url: 'ubah_pw.php',
-						data: 'nuptk=' + idx,
-						success: function ( data ) {
-							$( '.hasil-data' ).html( data ); //menampilkan data ke dalam modal
-						}
-					} );
-				} );
-			} );
-
 			$( document ).ready( function () {
 				$( '#detail_siswa' ).on( 'show.bs.modal', function ( e ) {
 					var idx = $( e.relatedTarget ).data( 'id' ); //harus tetap id, jika tidak akan data tak akan terambil
