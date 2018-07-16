@@ -64,7 +64,7 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 				</td>
 			</tr>
 			<tr>
-				<td>Lokasi</td>
+				<td>Lokasi Terakhir</td>
 				<td>
 					<?php
 
@@ -99,8 +99,11 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 					?>
 				</td>
 			</tr>
+					
 		</table>
-
+		<div class="modal-footer">
+		<button type="button" class="btn btn-info" data-toggle="modal" data-target="#">Ketemu</button>
+			</div>
 
 		<?php
 	}

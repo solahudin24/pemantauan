@@ -61,14 +61,14 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 					$_SESSION[ 's_pesan' ] = "Data Berhasil Diubah!"
 					?>
 					<script language="javascript">
-						document.location.href = "home_admin.php?tampil=guru";
+						document.location.href = "home_admin.php?menu=guru&action=tampil";
 					</script>
 					<?php
 				} else {
 					$_SESSION[ 's_pesan' ] = "Data Gagal Diubah!"
 					?>
 					<script language="javascript">
-						document.location.href = "home_admin.php?tampil=guru";
+						document.location.href = "home_admin.php?menu=guru&action=tampil";
 					</script>
 					<?php
 				}
@@ -78,7 +78,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 				$_SESSION[ 's_pesan' ] = "format harus berbentuk JPG/PNG/JPEG";
 				?>
 				<script language="javascript">
-					document.location.href = "home_admin.php?tampil=guru";
+					document.location.href = "home_admin.php?menu=guru&action=tampil";
 				</script>
 				<?php
 			}
@@ -86,7 +86,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 			$_SESSION[ 's_pesan' ] = "size file terlalu besar";
 			?>
 			<script language="javascript">
-				document.location.href = "home_admin.php?tampil=guru";
+				document.location.href = "home_admin.php?menu=guru&action=tampil";
 			</script>
 			<?php
 		}
@@ -95,7 +95,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 
 		?>
 		<script language="javascript">
-			document.location.href = "home_admin.php?tampil=guru";
+			document.location.href = "home_admin.php?menu=guru&action=tampil";
 		</script>
 		<?php
 	}

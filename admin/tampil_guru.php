@@ -32,22 +32,24 @@
 					</div>
 					<div class="col-md-4"></div>
 
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<ul class="nav">
 							<li class="sidebar-search">
 								<div class="input-group custom-search-form">
-									<input type="text" class="form-control" placeholder="Search...">
-									<span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-								
+								<form method="post" action="?menu=guru&action=cari">
+									<input type="text" class="form-control" placeholder="Search..." name="txtxcari">
 								</div>
 								<!-- /input-group -->
 							</li>
 						</ul>
 
+					</div>
+					<div class="col-md-1">
+						<button class="btn btn-default" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    
+								</form>
 					</div>
 					<br>
 

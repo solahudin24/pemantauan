@@ -1,33 +1,73 @@
 <?php
-$query_kabur_sdlb = "SELECT (select COUNT(DISTINCT tb_kabur.nis) FROM tb_siswa JOIN tb_kabur ON tb_siswa.nis=tb_kabur.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where status=0 AND tb_kelas.tingkatan='SDLB') as Kabur from dual";
+if(isset($_POST['tahun'])){
+	$tahun = $_POST['tahun'];
+	$awal_tahun = $tahun.'-01-01';
+	$akhir_tahun = $tahun.'-12-31';
+$query_kabur_sdlb = "SELECT (select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SDLB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun') as Kabur from dual";
 $result_kabur = mysqli_query( $link, $query_kabur_sdlb );
 $data_kabur = mysqli_fetch_array( $result_kabur );
 $jml_kabur_sdlb = $data_kabur[ 'Kabur' ];
 
-$query_tidak_kabur_sdlb = "SELECT ((SELECT COUNT(*) FROM tb_siswa JOIN tb_kelas ON tb_siswa.id_kelas=tb_kelas.id_kelas WHERE tb_kelas.tingkatan='SDLB')-(select COUNT(DISTINCT tb_kabur.nis) FROM tb_siswa JOIN tb_kabur ON tb_siswa.nis=tb_kabur.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where status=0 AND tb_kelas.tingkatan='SDLB')) as 'Tidak Kabur' from dual";
+$query_tidak_kabur_sdlb = "SELECT ((SELECT COUNT(*) FROM tb_siswa JOIN tb_kelas ON tb_siswa.id_kelas=tb_kelas.id_kelas WHERE tb_kelas.tingkatan='SDLB')-(select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SDLB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun')) as 'Tidak Kabur' from dual";
 $result_tidak_kabur = mysqli_query( $link, $query_tidak_kabur_sdlb );
 $data_tidak_kabur = mysqli_fetch_array( $result_tidak_kabur );
 $jml_tidak_kabur_sdlb = $data_tidak_kabur[ 'Tidak Kabur' ];
 
-$query_kabur_smplb = "SELECT (select COUNT(DISTINCT tb_kabur.nis) FROM tb_siswa JOIN tb_kabur ON tb_siswa.nis=tb_kabur.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where status=0 AND tb_kelas.tingkatan='SMPLB') as Kabur from dual";
+$query_kabur_smplb = "SELECT (select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SMPLB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun') as Kabur from dual";
 $result_kabur = mysqli_query( $link, $query_kabur_smplb );
 $data_kabur = mysqli_fetch_array( $result_kabur );
 $jml_kabur_smplb = $data_kabur[ 'Kabur' ];
 
-$query_tidak_kabur_smplb = "SELECT ((SELECT COUNT(*) FROM tb_siswa JOIN tb_kelas ON tb_siswa.id_kelas=tb_kelas.id_kelas WHERE tb_kelas.tingkatan='SMPLB')-(select COUNT(DISTINCT tb_kabur.nis) FROM tb_siswa JOIN tb_kabur ON tb_siswa.nis=tb_kabur.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where status=0 AND tb_kelas.tingkatan='SMPLB')) as 'Tidak Kabur' from dual";
+$query_tidak_kabur_smplb = "SELECT ((SELECT COUNT(*) FROM tb_siswa JOIN tb_kelas ON tb_siswa.id_kelas=tb_kelas.id_kelas WHERE tb_kelas.tingkatan='SMPLB')-(select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SMPLB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun')) as 'Tidak Kabur' from dual";
 $result_tidak_kabur = mysqli_query( $link, $query_tidak_kabur_smplb );
 $data_tidak_kabur = mysqli_fetch_array( $result_tidak_kabur );
 $jml_tidak_kabur_smplb = $data_tidak_kabur[ 'Tidak Kabur' ];
 
-$query_kabur_smalb = "SELECT (select COUNT(DISTINCT tb_kabur.nis) FROM tb_siswa JOIN tb_kabur ON tb_siswa.nis=tb_kabur.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where status=0 AND tb_kelas.tingkatan='SMALB') as Kabur from dual";
+$query_kabur_smalb = "SELECT (select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SMALB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun') as Kabur from dual";
 $result_kabur = mysqli_query( $link, $query_kabur_smalb );
 $data_kabur = mysqli_fetch_array( $result_kabur );
 $jml_kabur_smalb = $data_kabur[ 'Kabur' ];
 
-$query_tidak_kabur_smalb = "SELECT ((SELECT COUNT(*) FROM tb_siswa JOIN tb_kelas ON tb_siswa.id_kelas=tb_kelas.id_kelas WHERE tb_kelas.tingkatan='SMALB')-(select COUNT(DISTINCT tb_kabur.nis) FROM tb_siswa JOIN tb_kabur ON tb_siswa.nis=tb_kabur.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where status=0 AND tb_kelas.tingkatan='SMALB')) as 'Tidak Kabur' from dual";
+$query_tidak_kabur_smalb = "SELECT ((SELECT COUNT(*) FROM tb_siswa JOIN tb_kelas ON tb_siswa.id_kelas=tb_kelas.id_kelas WHERE tb_kelas.tingkatan='SMALB')-(select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SMALB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun')) as 'Tidak Kabur' from dual";
 $result_tidak_kabur = mysqli_query( $link, $query_tidak_kabur_smalb );
 $data_tidak_kabur = mysqli_fetch_array( $result_tidak_kabur );
 $jml_tidak_kabur_smalb = $data_tidak_kabur[ 'Tidak Kabur' ];
+}else {
+	$tanggal=getdate();
+	$tahun=$tanggal['year'];
+	
+	$awal_tahun = $tahun.'-01-01';
+	$akhir_tahun = $tahun.'-12-31';
+	$query_kabur_sdlb = "SELECT (select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SLB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun') as Kabur from dual";
+$result_kabur = mysqli_query( $link, $query_kabur_sdlb );
+$data_kabur = mysqli_fetch_array( $result_kabur );
+$jml_kabur_sdlb = $data_kabur[ 'Kabur' ];
+
+$query_tidak_kabur_sdlb = "SELECT ((SELECT COUNT(*) FROM tb_siswa JOIN tb_kelas ON tb_siswa.id_kelas=tb_kelas.id_kelas WHERE tb_kelas.tingkatan='SDLB')-(select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SDLB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun')) as 'Tidak Kabur' from dual";
+$result_tidak_kabur = mysqli_query( $link, $query_tidak_kabur_sdlb );
+$data_tidak_kabur = mysqli_fetch_array( $result_tidak_kabur );
+$jml_tidak_kabur_sdlb = $data_tidak_kabur[ 'Tidak Kabur' ];
+
+$query_kabur_smplb = "SELECT (select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SMPLB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun') as Kabur from dual";
+$result_kabur = mysqli_query( $link, $query_kabur_smplb );
+$data_kabur = mysqli_fetch_array( $result_kabur );
+$jml_kabur_smplb = $data_kabur[ 'Kabur' ];
+
+$query_tidak_kabur_smplb = "SELECT ((SELECT COUNT(*) FROM tb_siswa JOIN tb_kelas ON tb_siswa.id_kelas=tb_kelas.id_kelas WHERE tb_kelas.tingkatan='SMPLB')-(select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SMPLB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun')) as 'Tidak Kabur' from dual";
+$result_tidak_kabur = mysqli_query( $link, $query_tidak_kabur_smplb );
+$data_tidak_kabur = mysqli_fetch_array( $result_tidak_kabur );
+$jml_tidak_kabur_smplb = $data_tidak_kabur[ 'Tidak Kabur' ];
+
+$query_kabur_smalb = "SELECT (select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SMALB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun') as Kabur from dual";
+$result_kabur = mysqli_query( $link, $query_kabur_smalb );
+$data_kabur = mysqli_fetch_array( $result_kabur );
+$jml_kabur_smalb = $data_kabur[ 'Kabur' ];
+
+$query_tidak_kabur_smalb = "SELECT ((SELECT COUNT(*) FROM tb_siswa JOIN tb_kelas ON tb_siswa.id_kelas=tb_kelas.id_kelas WHERE tb_kelas.tingkatan='SMALB')-(select COUNT(DISTINCT tb_laporan.nis) FROM tb_siswa JOIN tb_laporan ON tb_siswa.nis=tb_laporan.nis JOIN tb_kelas ON tb_kelas.id_kelas=tb_siswa.id_kelas where tb_kelas.tingkatan='SMALB' AND waktu_kabur between '$awal_tahun' and '$akhir_tahun')) as 'Tidak Kabur' from dual";
+$result_tidak_kabur = mysqli_query( $link, $query_tidak_kabur_smalb );
+$data_tidak_kabur = mysqli_fetch_array( $result_tidak_kabur );
+$jml_tidak_kabur_smalb = $data_tidak_kabur[ 'Tidak Kabur' ];
+}
 ?>
 
 <script type="text/javascript">
@@ -169,36 +209,111 @@ $jml_tidak_kabur_smalb = $data_tidak_kabur[ 'Tidak Kabur' ];
 
 	} );
 </script>
+<?php
+	$query="SELECT DISTINCT(YEAR(waktu_kabur)) as tahun FROM tb_laporan";
+	$res=mysqli_query($link,$query);
+	
+?>
+
 
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-md-12">
 			<center>
-				<h1>Statistik Pemantauan Siswa</h1>
+				<h1>Statistik Pemantauan Siswa <?php echo $tahun;?></h1>
 			</center>
+		</div>
+		<div class="row">
+			<form action="home_kepsek.php" method="POST">
+			<div class="col-md-3">Tahun : <select id="selectBox" name='tahun'>
+			<?php
+				while($data_tahun=mysqli_fetch_array($res)){
+				?>
+				<option value="<?php echo $data_tahun['tahun'];?>"><?php echo $data_tahun['tahun'];?></option>
+				<?php
+			}
+			?>
+			
+			</select><button type="submit"> Pilih </button></form></div>
 		</div>
 
 		<!-- /.row -->
 		
 			<div class="row">
 				<div class="col-md-6">
-					<canvas id="chartSDLB"></canvas>
+					<canvas id="chartSDLB"></canvas><br>
+					<center>
+					<table class="table table-striped table-bordered table-hover">
+						<thead>
+						<th colspan=3><center>SDLB</th>
+						</thead>
+						<tbody>
+						<tr>
+							<td><center>Kabur</td>
+							<td><center>Tidak kabur</td>
+							<td><center>Total Siswa</td>
+						</tr>
+						<tr>
+							<td><center><?php echo $jml_tidak_kabur_sdlb; ?></td>
+							<td><center><?php echo $jml_kabur_sdlb; ?></td>
+							<td><center><?php echo $jml_tidak_kabur_sdlb+$jml_kabur_sdlb; ?></td>
+						</tr>
+						</tbody>
+					</table>
+					</center>
 				</div>
 				<div class="col-md-6">
-					<canvas id="chartSMPLB"></canvas>
+					<canvas id="chartSMPLB"></canvas><br>
+					<center>
+					<table class="table table-striped table-bordered table-hover">
+						<thead>
+						<th colspan=3><center>SMPLB</th>
+						</thead>
+						<tbody>
+						<tr>
+							<td><center>Kabur</td>
+							<td><center>Tidak kabur</td>
+							<td><center>Total Siswa</td>
+						</tr>
+						<tr>
+							<td><center><?php echo $jml_tidak_kabur_smplb; ?></td>
+							<td><center><?php echo $jml_kabur_smplb; ?></td>
+							<td><center><?php echo $jml_tidak_kabur_smplb+$jml_kabur_smplb; ?></td>
+						</tr>
+						</tbody>
+					</table>
+					</center>
 				</div>
-				<div class="col-md-3"></div>
-				<div class="col-md-6">
-					<canvas id="chartSMALB"></canvas>
-				</div>
-				<div class="col-md-3"></div>
+			</div>
+			<div class="row">
+					<div class="col-md-3"></div>
+					<div class="col-md-6">
+						<canvas id="chartSMALB"></canvas><br>
+						<center>
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+							<th colspan=3><center>SMALB</th>
+							</thead>
+							<tbody>
+							<tr>
+								<td><center>Kabur</td>
+								<td><center>Tidak kabur</td>
+								<td><center>Total Siswa</td>
+							</tr>
+							<tr>
+								<td><center><?php echo $jml_tidak_kabur_smalb; ?></td>
+								<td><center><?php echo $jml_kabur_smalb; ?></td>
+								<td><center><?php echo $jml_tidak_kabur_smalb+$jml_kabur_smalb; ?></td>
+							</tr>
+							</tbody>
+						</table>
+						</center>
+					</div>
+					<div class="col-md-3"></div>
 				<!--				<div class="col-md-4">-->
 				<!--										<div id="piechartSMALB"></div>-->
 				<!--				</div>-->
 			</div>
-			
-
-	</div>
 
 
 	<!-- /#wrapper -->

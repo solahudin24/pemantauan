@@ -85,8 +85,15 @@
 	
 	<script type="text/javascript" src="../js/jquery-1.9.0.js"></script>
 <!--	<script src="https://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>-->
+	
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeSbTd4xPktRSQwbytnDN33ugM6sJrq_0&libraries=geometry"></script>
+	
+<!--
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeSbTd4xPktRSQwbytnDN33ugM6sJrq_0">
 			</script>
+-->
+	
+	
 	
 	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 	<script type="text/javascript" src="../js/util.js"></script>

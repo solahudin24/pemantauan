@@ -8,11 +8,11 @@
 <markers>
 <?php
 	$i = 0;
-	$sql_siswa = "select * from tb_siswa where status='0' AND lat IS NOT NULL";
+	$sql_siswa = "select * from tb_siswa JOIN tb_kelas ON tb_siswa.id_kelas=tb_kelas.id_kelas where tb_siswa.lat IS NOT NULL";
 	$res_siswa = mysqli_query($link,$sql_siswa);
 	while($data_siswa = mysqli_fetch_array($res_siswa)){
 		?>
-	<marker nama="<?php echo $data_siswa['nama']; ?>" nis="icon<?php echo $data_siswa['nis']; ?>" lat="<?php echo $data_siswa['lat']; ?>" lng="<?php echo $data_siswa['longitude']; ?>" foto="<?php echo $data_siswa['foto']; ?>" jumlah="<?php echo $i; ?>"/>
+	<marker nama="<?php echo $data_siswa['nama']; ?>" nis="<?php echo $data_siswa['nis']; ?>" lat="<?php echo $data_siswa['lat']; ?>" lng="<?php echo $data_siswa['longitude']; ?>" foto="<?php echo $data_siswa['foto']; ?>" jumlah="<?php echo $i; ?>" status="<?php echo $data_siswa['status']; ?>" kelas="<?php echo $data_siswa['kelas']; ?>"/>
 	<?php
 		$i++;
 	}

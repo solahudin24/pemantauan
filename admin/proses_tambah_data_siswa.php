@@ -45,14 +45,14 @@ if (!empty( $_POST[ 'nis' ]) ) {
 					$_SESSION[ 's_pesan' ] = "Data Berhasil Disimpan!"
 					?>
 					<script language="javascript">
-						document.location.href = "home_admin.php?tampil=siswa";
+						document.location.href = "home_admin.php?menu=siswa&action=tampil";
 					</script>
 					<?php
 				} else {
 					$_SESSION[ 's_pesan' ] = "Data Gagal Disimpan!"
 					?>
 					<script language="javascript">
-						document.location.href = "home_admin.php?tampil=siswa";
+						document.location.href = "home_admin.php?menu=siswa&action=tampil";
 					</script>
 					<?php
 				}
@@ -62,7 +62,7 @@ if (!empty( $_POST[ 'nis' ]) ) {
 				$_SESSION[ 's_pesan' ] = "format harus berbentuk JPG/PNG/JPEG";
 				?>
 				<script language="javascript">
-					document.location.href = "home_admin.php?tampil=siswa";
+					document.location.href = "home_admin.php?menu=siswa&action=tampil";
 				</script>
 				<?php
 			}
@@ -70,7 +70,7 @@ if (!empty( $_POST[ 'nis' ]) ) {
 			$_SESSION[ 's_pesan' ] = "size file terlalu besar";
 			?>
 			<script language="javascript">
-				document.location.href = "home_admin.php?tampil=siswa";
+				document.location.href = "home_admin.php?menu=siswa&action=tampil";
 			</script>
 			<?php
 		}
@@ -79,14 +79,14 @@ if (!empty( $_POST[ 'nis' ]) ) {
 
 		?>
 		<script language="javascript">
-			document.location.href = "home_admin.php?tampil=siswa";
+			document.location.href = "home_admin.php?menu=siswa&action=tampil";
 		</script>
 		<?php
 	}
 } else {
 	?>
 	<script language="javascript">
-		document.location.href = "home_admin.php?tampil=siswa";
+		document.location.href = "home_admin.php?menu=siswa&action=tampil";
 	</script>
 	<?php
 }

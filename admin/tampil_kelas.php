@@ -36,12 +36,14 @@
                         <ul class="nav">
                             <li class="sidebar-search">
                                 <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Search...">
+                                    <form method="post" action="?menu=kelas&action=cari">
+                                    <input type="text" class="form-control" placeholder="Search..." name="txtxcari">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">
+                                        <button class="btn btn-default" type="submit">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
+                                    </form>
                                 
                                 </div>
                                 <!-- /input-group -->
@@ -202,11 +204,11 @@
                     </div>
                     <div class="form-group">
                         <label for="jam_masuk">Jam Masuk:</label>
-                        <input type="text" class="form-control" name="jam_masuk" required>
+                        <input type="time" class="form-control" name="jam_masuk" required>
                     </div>
                      <div class="form-group">
                         <label for="jam_keluar">Jam Keluar:</label>
-                        <input type="text" class="form-control" name="jam_keluar" required>
+                        <input type="time" class="form-control" name="jam_keluar" required>
                     </div>                    
             </div>
             <div class="modal-footer">

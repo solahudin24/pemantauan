@@ -64,7 +64,7 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 				</td>
 			</tr>
 			<tr>
-				<td>Lokasi</td>
+				<td>Lokasi Terakhir</td>
 				<td>
 					<?php
 

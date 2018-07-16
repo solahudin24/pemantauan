@@ -14,14 +14,14 @@ if(!empty($_POST['kode_jabatan']))
 		$_SESSION[ 's_pesan' ] = "Data Berhasil Diubah!"
 	?>
 	    <script language="javascript">
-			document.location.href = "home_admin.php?tampil=jabatan";
+			document.location.href = "home_admin.php?menu=jabatan&action=tampil";
 		</script>
 	<?php
 	} else {
 		$_SESSION[ 's_pesan' ] = "Data Gagal Diubah!"
 	?>
 		<script language="javascript">
-			document.location.href = "home_admin.php?tampil=jabatan";
+			document.location.href = "home_admin.php?menu=jabatan&action=tampil";
 		</script>
 	<?php
 	}
@@ -29,7 +29,7 @@ if(!empty($_POST['kode_jabatan']))
 } else {
 	?>
 	<script language="javascript">
-		document.location.href = "home_admin.php?tampil=jabatan";
+		document.location.href = "home_admin.php?menu=jabatan&action=tampil";
 	</script>
 	<?php
 }

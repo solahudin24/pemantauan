@@ -105,7 +105,7 @@ if ( isset( $_SESSION[ 's_id_orangtua' ] ) ) {
             <li class="active">
               <ul class="nav nav-second-level" aria-expanded="true" style>
                 <?php 
-                $sql_siswa = "select * from tb_siswa where status='0' AND id_orangtua = '".$_SESSION['s_id_orangtua']."'";
+                $sql_siswa = "select * from tb_siswa where status<>'1' AND id_orangtua = '".$_SESSION['s_id_orangtua']."'";
                 $res_siswa = mysqli_query($link,$sql_siswa);
                 while ( $data = mysqli_fetch_array( $res_siswa ) ) {
                   echo "<li>";
@@ -143,7 +143,7 @@ if ( isset( $_SESSION[ 's_id_orangtua' ] ) ) {
         
         
         <?php
-          $sql_siswa = "select * from tb_siswa where status='0' AND id_orangtua='".$_SESSION['s_id_orangtua']."'";
+          $sql_siswa = "select * from tb_siswa where status<>'1' AND id_orangtua='".$_SESSION['s_id_orangtua']."'";
           $res_siswa = mysqli_query($link,$sql_siswa);
           $jumlah_siswa = mysqli_num_rows($res_siswa);
           for($i = 0 ; $i<$jumlah_siswa ; $i++){
@@ -163,7 +163,7 @@ if ( isset( $_SESSION[ 's_id_orangtua' ] ) ) {
           //Saya tidak akan menjelaskan yang jelas !!!
           var myLatlng = new google.maps.LatLng( -6.930447, 107.654425 );
           var myOptions = {
-            zoom: 21,
+            zoom: 19,
             center: myLatlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
           }

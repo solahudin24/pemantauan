@@ -58,6 +58,33 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 			border-radius: 50%;
 		}
 	</style>
+	<script>
+		var refreshId = setInterval( function () {
+			$( '.responsecontainer' ).load( 'batre.php' );
+		}, 1000 );
+		
+		$.ajax( {
+			type: 'post',
+			url: 'angka_badge.php',
+			data: {
+				view: ''
+			},
+			dataType: "json",
+			success: function ( data ) {
+				$( '.angka-badge' ).html( data.jumlah );
+			}
+		} );
+
+		$.ajax( {
+			type: 'post',
+			url: 'notifikasi.php',
+			success: function ( data ) {
+				$( '.notif' ).html( data );
+			}
+		} );
+
+		
+	</script>
 	<div id="wrapper">
 
 		<!-- Navigation -->
@@ -73,22 +100,52 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 
 
-				<a class="navbar-brand" href="../guru/home_guru.php">Guru </a>
+
+
+
+				<a class="navbar-brand" href="../guru/home_guru.php">Guru</a>
 			</div>
 			<!-- /.navbar-header -->
 
 			<ul class="nav navbar-top-links navbar-right">
 
+				<li class="dropdown update-badge">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i><span class="badge angka-badge"></span> <i class="fa fa-caret-down"></i>
+                    </a>
+					
+					<ul class="dropdown-menu dropdown-messages notif">
+
+					</ul>
+					<!-- /.dropdown-messages -->
+				</li>
+				<script>
+					$( document ).on( 'click', '.update-badge', function () {
+
+						//menampilkan jumlah status 1
+						$.ajax( {
+							type: 'post',
+							url: 'angka_badge.php',
+							data: {
+								command: "update-badge"
+							},
+							dataType: "json",
+							success: function ( data ) {
+								$( '.angka-badge' ).html( data.jumlah );
+							}
+						} );
+					} );
+				</script>
+
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+						<i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
 					</a>
 				
 
 
-
 					<ul class="dropdown-menu dropdown-user">
-						<li class="divider"></li>
+
 						<li><a href="#ubah_pw" id="custId" data-toggle="modal" data-id="<?php echo $_SESSION['s_nuptk'];?>"><i class="fa fa-edit fa-fw"></i> Ubah Password</a>
 						</li>
 						<li><a href="../logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -103,18 +160,8 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 				<div class="sidebar-nav navbar-collapse">
 					<ul class="nav" id="side-menu">
 						<li class="active">
-							<ul class="nav nav-second-level" aria-expanded="true" style>
-								<?php 
-								$sql_siswa = "select * from tb_siswa where status='0'";
-								$res_siswa = mysqli_query($link,$sql_siswa);
-								while ( $data = mysqli_fetch_array( $res_siswa ) ) {
-									echo "<li>";
-									?><a class="img-rounded" href="#detail_siswa" id="custId" data-toggle="modal" data-id="<?php echo $data['nis'];?>"> 
-									<img src="../images/siswa/<?php echo $data['foto'];?>" width="75" height="75"><?php echo $data['nama'];?></a>
-							
-								<?php echo "</li>";
-								}
-								?>
+							<ul class="nav nav-second-level responsecontainer" aria-expanded="true" style>
+
 							</ul>
 							<!-- /.nav-second-level -->
 						</li>
@@ -129,9 +176,6 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 		<div id="page-wrapper">
 			<div id="map" style="width: pxpx; height: 575px"></div>
 			<script type="text/javascript">
-				//Icons
-
-
 				//Popup dos markers
 				var infoWindow = null;
 
@@ -140,20 +184,10 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 				//Ini adalah susunan global penanda yang ada di layar
 				var markersArray = [];
+				var guruMarkerArray = [];
+				var guruCircleArray = [];
 				
 				
-				<?php
-					$sql_siswa = "select * from tb_siswa where status='0'";
-					$res_siswa = mysqli_query($link,$sql_siswa);
-					$jumlah_siswa = mysqli_num_rows($res_siswa);
-					for($i = 0 ; $i<$jumlah_siswa ; $i++){
-						echo "var overlay".$i.";";
-					}
-				?>
-				
-				
-
-
 
 				/*
 				 * Inisialisasi Google Maps API
@@ -163,7 +197,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 					//Saya tidak akan menjelaskan yang jelas !!!
 					var myLatlng = new google.maps.LatLng( -6.930447, 107.654425 );
 					var myOptions = {
-						zoom: 21,
+						zoom: 12,
 						center: myLatlng,
 						mapTypeId: google.maps.MapTypeId.ROADMAP
 					}
@@ -199,6 +233,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 					} );
 					bermudaTriangle.setMap( map );
 
+
 					infoWindow = new google.maps.InfoWindow;
 
 					//Metode ini saya buat untuk melakukan pemuatan penanda pada peta
@@ -206,7 +241,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 					updateMaps();
 
 					//Kami juga mendefinisikan eksekusi dengan interval waktu
-					window.setInterval( updateMaps, 5000 );
+					window.setInterval( updateMaps, 10000 );
 
 				}
 
@@ -217,6 +252,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 				function CustomMarker( latlng, map, imageSrc ) {
 					this.latlng_ = latlng;
 					this.imageSrc = imageSrc;
+
 					// Once the LatLng and text are set, add the overlay to the map.  This will
 					// trigger a call to panes_changed which should in turn call draw.
 					this.setMap( map );
@@ -260,8 +296,12 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 				CustomMarker.prototype.remove = function () {
 					// Check if the overlay was on the map and needs to be removed.
-					this.div_.parentNode.removeChild( this.div_ );
-					this.div_ = null;
+					//					this.div_.parentNode.removeChild( this.div_ );
+					//					this.div_ = null;
+					if ( this.div_ ) {
+						this.div_.parentNode.removeChild( this.div_ );
+						this.div_ = null;
+					}
 				};
 
 				CustomMarker.prototype.getPosition = function () {
@@ -269,10 +309,19 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 				};
 
 				function clearOverlays() {
-					for (var i = 0; i < markersArray.length; i++ ) {
-	   					markersArray[i].setMap(null);
-	  				}
+					for ( var i = 0; i < markersArray.length; i++ ) {
+						markersArray[ i ].setMap( null );
+					}
+					
+					for ( var i = 0; i < guruMarkerArray.length; i++ ) {
+						guruMarkerArray[ i ].setMap( null );
+					}
+					
+					for ( var i = 0; i < guruCircleArray.length; i++ ) {
+						guruCircleArray[ i ].setMap( null );
+					}
 				}
+
 
 				/*
 				 * Metode yang memanggil jalur data xml
@@ -280,15 +329,97 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 				 */
 
 				var i = 0;
-				
-				function updateMaps() {
 
+				function load_notification() {
+					$.ajax( {
+						type: 'post',
+						url: 'angka_badge.php',
+						data: {
+							view: ''
+						},
+						dataType: "json",
+						success: function ( data ) {
+							$( '.angka-badge' ).html( data.jumlah );
+						}
+					} );
+
+					$.ajax( {
+						type: 'post',
+						url: 'notifikasi.php',
+						success: function ( data ) {
+							$( '.notif' ).html( data );
+						}
+					} );
+				}
+				
+				function showPosition(position) {
+					var myLatLngGuru = {lat: position.coords.latitude, lng: position.coords.longitude};
+
+					var markerGuru = new google.maps.Marker({
+					  position: myLatLngGuru,
+					  map: map,
+						title: 'ini guru'
+					});
+
+					
+					var guruCircle = new google.maps.Circle({
+						strokeColor: '#FF0000',
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: '#FF0000',
+						fillOpacity: 0.35,
+						map: map,
+						center: {lat: position.coords.latitude, lng: position.coords.longitude},
+						radius: 20
+					  });
+					
+					guruMarkerArray.push(markerGuru);
+					guruCircleArray.push(guruCircle);
+				}
+				
+
+				function updateMaps() {
+					
 					if ( i != 0 ) {
 						clearOverlays();
 					} else {
 						i = i + 1;
 					}
 					
+					
+						
+					navigator.geolocation.getCurrentPosition(showPosition);
+					
+					
+					
+					
+					var triangleCoords = [ {
+							lat: -6.930547,
+							lng: 107.654587
+						}, //kanan bawah
+						{
+							lat: -6.930447,
+							lng: 107.654325
+						}, ///kiri bawah
+						{
+							lat: -6.930347,
+							lng: 107.654395
+						}, //kiri atas
+						{
+							lat: -6.930437,
+							lng: 107.654628
+						} //kanan atas
+					];
+
+					var bermudaTriangle = new google.maps.Polygon( {
+						paths: triangleCoords,
+						strokeColor: '#FF0000',
+						strokeOpacity: 0.8,
+						strokeWeight: 3,
+						fillColor: '#FF0000',
+						fillOpacity: 0.35
+					} );
+
 					var timestamp = new Date().getTime();
 					var data = 'data.php?t=' + timestamp;
 
@@ -297,20 +428,52 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 						$( data ).find( "marker" ).each(
 							function () {
 								var marker = $( this );
-							
+
 
 								var overlay = new CustomMarker( new google.maps.LatLng( parseFloat( marker.attr( "lat" ) ), parseFloat( marker.attr( "lng" ) ) ), map, "../images/siswa/" + marker.attr( "foto" ) );
-								
-								markersArray.push(overlay);
-								
+
+								var myLatlng = new google.maps.LatLng( marker.attr( "lat" ), marker.attr( "lng" ) );
+
+								var hasil = google.maps.geometry.poly.containsLocation( myLatlng, bermudaTriangle ) ? "didalam" : "diluar";
+
+								if ( hasil == "diluar" && marker.attr( "status" ) == 0 ) {
+									
+									$.ajax( {
+										type: 'post',
+										url: 'update_notifikasi.php',
+										data: {
+											nis: marker.attr( "nis" ),
+											kelas: marker.attr( "kelas" ),
+											nama: marker.attr( "nama" ),
+											perintah: "0 jadi 2"
+										},
+										success: function ( data ) {
+											load_notification();
+										}
+									} );
+
+								} else if ( hasil == "didalam" && marker.attr( "status" ) == 2 ) {
+									
+									$.ajax( {
+										type: 'post',
+										url: 'update_notifikasi.php',
+										data: {
+											nis: marker.attr( "nis" ),
+											kelas: marker.attr( "kelas" ),
+											nama: marker.attr( "nama" ),
+											perintah: "2 jadi 0"
+										},
+										success: function ( data ) {
+											load_notification();
+										}
+									} );
+									
+								}
+
+								markersArray.push( overlay );
 								
 							} );
 					} );
-					
-					
-
-					
-
 				}
 
 				google.setOnLoadCallback( initialize );

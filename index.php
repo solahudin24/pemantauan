@@ -14,6 +14,36 @@ if ( isset( $_SESSION[ 's_pesan' ] ) ) {
 	unset( $_SESSION[ 's_pesan' ] );
 }
 ?>
+<script type="text/javascript">
+	if (!('Notification' in window)) {
+    alert('This browser does not support desktop notification');
+  } else if (Notification.permission === 'granted') {
+    notify();
+  } else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function(permission) {
+      if (!('permission' in Notification)) {
+        Notification.permission = permission;
+      }
+      if (permission === 'granted') {
+        notify();
+      }
+    });
+  }
+</script>
+
+<?php
+	if(isset($_SESSION['s_nuptk'])){
+		if($_SESSION[ 's_kode_jabatan' ] == "BKS"){
+			echo( "<script> location.href ='admin/home_admin.php';</script>" );
+		}else if ($_SESSION[ 's_kode_jabatan' ] == "KSK") {
+			echo( "<script> location.href ='kepala_sekolah/home_kepsek.php';</script>" );			
+		}else{
+			echo( "<script> location.href ='guru/home_guru.php';</script>" );
+		}
+	}else if(isset($_SESSION['s_id_orangtua'])){
+		echo( "<script> location.href ='orangtua/home_ortu.php';</script>" );
+	}else{
+?>
 
 <div class="limiter">
 	<div class="container-login100" style="background-image: url('images/background.jpg');">
@@ -55,4 +85,7 @@ if ( isset( $_SESSION[ 's_pesan' ] ) ) {
 
 <div id="dropDownSelect1"></div>
 
-<?php require('footer.php') ?>
+<?php 
+		 }
+		  require('footer.php');
+?>

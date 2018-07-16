@@ -17,14 +17,14 @@ if(!empty($_POST['kelas']))
 		$_SESSION[ 's_pesan' ] = "Data Berhasil Disimpan!"
 	?>
 	    <script language="javascript">
-			document.location.href = "home_admin.php?tampil=kelas";
+			document.location.href = "home_admin.php?menu=kelas&action=tampil";
 		</script>
 	<?php
 	} else {
 		$_SESSION[ 's_pesan' ] = "Data Gagal Disimpan!"
 	?>
 		<script language="javascript">
-			document.location.href = "home_admin.php?tampil=kelas";
+			document.location.href = "home_admin.php?menu=kelas&action=tampil";
 		</script>
 	<?php
 	}
@@ -32,7 +32,7 @@ if(!empty($_POST['kelas']))
 } else {
 	?>
 	<script language="javascript">
-		document.location.href = "home_admin.php?tampil=kelas";
+		document.location.href = "home_admin.php?menu=kelas&action=tampil";
 	</script>
 	<?php
 }

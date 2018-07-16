@@ -64,7 +64,7 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 				</td>
 			</tr>
 			<tr>
-				<td>Lokasi</td>
+				<td>Lokasi Terakhir</td>
 				<td>
 					<?php
 					echo $data['lat'].",".$data['longitude'];
@@ -85,6 +85,12 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 					<?php
 					echo $data['update_time'];
 					?>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#">Ketemu</button>
 				</td>
 			</tr>
 		</table>

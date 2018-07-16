@@ -82,6 +82,25 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
                 </div>
             </div>
 
+            <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="export" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <center>
+                                <h4 class="modal-title">Export Data</h4>
+                            </center>
+                        </div>
+                        <div class="modal-body">
+                            <div class="hasil-data"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
             <script type="text/javascript">
             $( document ).ready( function () {
                 $( '#ubah_pw' ).on( 'show.bs.modal', function ( e ) {
@@ -90,6 +109,21 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
                     $.ajax( {
                         type: 'post',
                         url: 'ubah_pw.php',
+                        data: 'nuptk=' + idx,
+                        success: function ( data ) {
+                            $( '.hasil-data' ).html( data ); //menampilkan data ke dalam modal
+                        }
+                    } );
+                } );
+            } );
+
+            $( document ).ready( function () {
+                $( '#export' ).on( 'show.bs.modal', function ( e ) {
+                    var idx = $( e.relatedTarget ).data( 'id' ); //harus tetap id, jika tidak akan data tak akan terambil
+                    //menggunakan fungsi ajax untuk pengambilan data
+                    $.ajax( {
+                        type: 'post',
+                        url: 'export_data.php',
                         data: 'nuptk=' + idx,
                         success: function ( data ) {
                             $( '.hasil-data' ).html( data ); //menampilkan data ke dalam modal

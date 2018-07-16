@@ -49,19 +49,24 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 				<!-- /.dropdown -->
 			</ul>
 			<!-- /.navbar-top-links -->
+			<!-- /.KIRI -->
 			<?php
-			if ( isset( $_GET[ 'tampil' ] ) ) {
-				$tampil = $_GET[ 'tampil' ];
-				if ( $tampil == 'guru' ) {
-					require( 'menu_guru.php' );
-				} else if ( $tampil == 'siswa' ) {
-					require( 'menu_siswa.php' );
-				} else if ( $tampil == 'orangtua' ) {
-					require( 'menu_orangtua.php' );
-				} else if ( $tampil == 'jabatan' ) {
-					require( 'menu_jabatan.php' );
-				} else if ( $tampil == 'kelas' ) {
-					require( 'menu_kelas.php' );
+			if ( isset( $_GET[ 'menu' ] )) {
+				if((($_GET['action']=='tampil')||($_GET['action']=='cari'))){
+
+					$menu = $_GET[ 'menu' ];
+					if ( $menu == 'guru' ) {
+						require( 'menu_guru.php' );
+					} else if ( $menu == 'siswa' ) {
+
+						require( 'menu_siswa.php' );
+					} else if ( $menu == 'orangtua' ) {
+						require( 'menu_orangtua.php' );
+					} else if ( $menu == 'jabatan' ) {
+						require( 'menu_jabatan.php' );
+					} else if ( $menu == 'kelas' ) {
+						require( 'menu_kelas.php' );
+					}
 				}
 			} else {
 				require( 'menu_dashboard.php' );
@@ -72,22 +77,61 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 			<!-- /.navbar-static-side -->
 		</nav>
-
+		<!-- /.KANAN -->
 		<?php
-		if ( isset( $_GET[ 'tampil' ] ) ) {
-			$tampil = $_GET[ 'tampil' ];
-			if ( $tampil == 'guru' ) {
-				require( 'tampil_guru.php' );
-			} else if ( $tampil == 'siswa' ) {
-				require( 'tampil_siswa.php' );
-			} else if($tampil == 'orangtua'){
-			    require('tampil_orangtua.php');
-			}else if($tampil == 'jabatan'){
-				require('tampil_jabatan.php');
-			}else if($tampil == 'kelas'){
-				require('tampil_kelas.php');
-			}
-		} else {
+		if ( isset( $_GET[ 'menu' ] ) ) {
+			$action = $_GET[ 'action' ];
+			if(($_GET['menu']=='guru') && ($_GET['action']=='tampil'))
+					{
+						//panggil file tampil data guru
+						require( 'tampil_guru.php' );
+					}
+			else if(($_GET['menu']=='guru') && ($_GET['action']=='cari'))
+					{
+						//panggil file tampil data guru
+						require( 'tampil_cari_guru.php' );
+					}
+			else if(($_GET['menu']=='siswa') && ($_GET['action']=='tampil'))
+					{
+						//panggil file tampil data guru
+						require( 'tampil_siswa.php' );
+					}
+			else if(($_GET['menu']=='siswa') && ($_GET['action']=='cari'))
+					{
+						//panggil file tampil data guru
+						require( 'tampil_cari_siswa.php' );
+					}
+			else if(($_GET['menu']=='orangtua') && ($_GET['action']=='tampil'))
+					{
+						//panggil file tampil data guru
+						require( 'tampil_orangtua.php' );
+					}
+			else if(($_GET['menu']=='orangtua') && ($_GET['action']=='cari'))
+					{
+						//panggil file tampil data guru
+						require( 'tampil_cari_orangtua.php' );
+					}
+			else if(($_GET['menu']=='jabatan') && ($_GET['action']=='tampil'))
+					{
+						//panggil file tampil data guru
+						require( 'tampil_jabatan.php' );
+					}
+			else if(($_GET['menu']=='jabatan') && ($_GET['action']=='cari'))
+					{
+						//panggil file tampil data guru
+						require( 'tampil_cari_jabatan.php' );
+					}
+			else if(($_GET['menu']=='kelas') && ($_GET['action']=='tampil'))
+					{
+						//panggil file tampil data guru
+						require( 'tampil_kelas.php' );
+					}
+			else if(($_GET['menu']=='kelas') && ($_GET['action']=='cari'))
+					{
+						//panggil file tampil data guru
+						require( 'tampil_cari_kelas.php' );
+					}
+			} else {
 			require( 'tampil_dashboard.php' );
 		}
 		?>

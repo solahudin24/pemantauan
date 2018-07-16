@@ -9,19 +9,19 @@
 				<a href="#"><i class="fa fa-files-o fa-fw"></i> Data <span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level" aria-expanded="true" style>
 					<li>
-						<a href="home_admin.php?tampil=guru">Data Guru</a>
+						<a href="home_admin.php?menu=guru&action=tampil">Data Guru</a>
 					</li>
 					<li>
-						<a href="home_admin.php?tampil=siswa">Data Siswa</a>
+						<a href="home_admin.php?menu=siswa&action=tampil">Data Siswa</a>
 					</li>
 					<li>
-						<a href="home_admin.php?tampil=orangtua">Data Orangtua</a>
+						<a href="home_admin.php?menu=orangtua&action=tampil">Data Orangtua</a>
 					</li>
 					<li>
-						<a href="home_admin.php?tampil=jabatan">Data Jabatan</a>
+						<a href="home_admin.php?menu=jabatan&action=tampil">Data Jabatan</a>
 					</li>
 					<li>
-						<a class="active" href="home_admin.php?tampil=kelas">Data Kelas</a>
+						<a class="active" href="home_admin.php?menu=kelas&action=tampil">Data Kelas</a>
 					</li>
 				</ul>
 				<!-- /.nav-second-level -->
