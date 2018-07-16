@@ -5,7 +5,8 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 	$nis = $_POST[ 'nis' ];
 	$query = "SELECT * FROM tb_siswa WHERE nis = $nis";
 	$res = mysqli_query( $link, $query );
-	while ( $data = mysqli_fetch_assoc( $res ) ) {
+	$data = mysqli_fetch_assoc( $res );
+
 		?>
 		<table width="100%" class="table table-striped table-bordered table-hover">
 			<tr>
@@ -79,7 +80,7 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 							return false;
 						}
 					}
-					echo getaddress($data[ 'lat' ],$data[ 'longitude' ]);
+					echo getaddress( $data[ 'lat' ], $data[ 'longitude' ] );
 					?>
 				</td>
 			</tr>
@@ -99,13 +100,64 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 					?>
 				</td>
 			</tr>
-					
+
 		</table>
 		<div class="modal-footer">
-		<button type="button" class="btn btn-info" data-toggle="modal" data-target="#">Ketemu</button>
-			</div>
+			<?php
+			$query_konfirmasi = "select * from tb_notifikasi where nis='$nis' order by id_notifikasi desc limit 1";
+			$result_konfirmasi = mysqli_query( $link, $query_konfirmasi );
+			$ketemu = mysqli_num_rows( $result_konfirmasi );
+			$data_konfirmasi = mysqli_fetch_array( $result_konfirmasi );
+			if ( $ketemu > 0 && $data_konfirmasi[ 'status' ] == 0 && $data['status']==2) {
+				?>
+
+			<button type="button" class="btn btn-info konfirmasi">Konfirmasi</button>
+			<?php
+			} else if ( $ketemu > 0 && $data_konfirmasi[ 'status' ] == 1 && $data['status']==2) {
+				?>
+			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#ketemu" onClick="return confirm('Apakah anda yakin ketemu?');">Ketemu</button>
+			<?php
+			}
+			?>
+		</div>
 
 		<?php
-	}
+	
 }
 ?>
+<script>
+	$( document ).on( 'click', '.konfirmasi', function () {
+		//menampilkan jumlah status 1
+		$.ajax( {
+			type: 'post',
+			url: 'update_status_notifikasi.php',
+			data: {
+				command: "update-konfirmasi",
+				idNotifikasi : "5",
+				nis : "112",
+				waktu : "2018-07-16 18:54:20"
+			},
+			success: function ( data ) {
+				
+			}
+		} );
+	} );
+	
+	$( document ).on( 'click', '#ketemu', function () {
+		//menampilkan jumlah status 1
+		$.ajax( {
+			type: 'post',
+			url: 'update_status_notifikasi.php',
+			data: {
+				command: "update-ketemu",
+				idNotifikasi : "<?php echo $data_konfirmasi['id_notifikasi']; ?>",
+				nis : "<?php echo $nis; ?>",
+				waktu : "<?php echo $data_konfirmasi['waktu']; ?>",
+				lat : "<?php echo $data['lat']; ?>",
+				longtitude : "<?php echo $data['longtitude']; ?>"
+			},
+			success: function ( data ) {
+			}
+		} );
+	} );
+</script>

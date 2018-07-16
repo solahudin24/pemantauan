@@ -3,9 +3,7 @@
 		<div class="col-lg-12">
 			<h1 class="page-header">Data Guru</h1>
 		</div>
-		<!-- /.col-lg-12 -->
 	</div>
-	<!-- /.row -->
 	<?php
 	if ( isset( $_SESSION[ 's_pesan' ] ) ) {
 		?>

@@ -197,7 +197,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 					//Saya tidak akan menjelaskan yang jelas !!!
 					var myLatlng = new google.maps.LatLng( -6.930447, 107.654425 );
 					var myOptions = {
-						zoom: 12,
+						zoom: 19,
 						center: myLatlng,
 						mapTypeId: google.maps.MapTypeId.ROADMAP
 					}
