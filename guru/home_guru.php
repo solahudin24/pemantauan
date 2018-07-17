@@ -17,6 +17,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 
 
+
 			<?php echo $_SESSION['s_pesan']; ?>
 		</div>
 		<?php
@@ -62,7 +63,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 		var refreshId = setInterval( function () {
 			$( '.responsecontainer' ).load( 'batre.php' );
 		}, 1000 );
-		
+
 		$.ajax( {
 			type: 'post',
 			url: 'angka_badge.php',
@@ -82,8 +83,6 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 				$( '.notif' ).html( data );
 			}
 		} );
-
-		
 	</script>
 	<div id="wrapper">
 
@@ -103,6 +102,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 
 
 
+
 				<a class="navbar-brand" href="../guru/home_guru.php">Guru</a>
 			</div>
 			<!-- /.navbar-header -->
@@ -113,7 +113,8 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i><span class="badge angka-badge"></span> <i class="fa fa-caret-down"></i>
                     </a>
-					
+				
+
 					<ul class="dropdown-menu dropdown-messages notif">
 
 					</ul>
@@ -142,6 +143,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 						<i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
 					</a>
 				
+
 
 
 					<ul class="dropdown-menu dropdown-user">
@@ -186,8 +188,8 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 				var markersArray = [];
 				var guruMarkerArray = [];
 				var guruCircleArray = [];
-				
-				
+
+
 
 				/*
 				 * Inisialisasi Google Maps API
@@ -312,11 +314,11 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 					for ( var i = 0; i < markersArray.length; i++ ) {
 						markersArray[ i ].setMap( null );
 					}
-					
+
 					for ( var i = 0; i < guruMarkerArray.length; i++ ) {
 						guruMarkerArray[ i ].setMap( null );
 					}
-					
+
 					for ( var i = 0; i < guruCircleArray.length; i++ ) {
 						guruCircleArray[ i ].setMap( null );
 					}
@@ -351,48 +353,54 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 						}
 					} );
 				}
-				
-				function showPosition(position) {
-					var myLatLngGuru = {lat: position.coords.latitude, lng: position.coords.longitude};
 
-					var markerGuru = new google.maps.Marker({
-					  position: myLatLngGuru,
-					  map: map,
+				function showPosition( position ) {
+					var myLatLngGuru = {
+						lat: position.coords.latitude,
+						lng: position.coords.longitude
+					};
+
+					var markerGuru = new google.maps.Marker( {
+						position: myLatLngGuru,
+						map: map,
 						title: 'ini guru'
-					});
+					} );
 
-					
-					var guruCircle = new google.maps.Circle({
+
+					var guruCircle = new google.maps.Circle( {
 						strokeColor: '#FF0000',
 						strokeOpacity: 0.8,
 						strokeWeight: 2,
 						fillColor: '#FF0000',
 						fillOpacity: 0.35,
 						map: map,
-						center: {lat: position.coords.latitude, lng: position.coords.longitude},
+						center: {
+							lat: position.coords.latitude,
+							lng: position.coords.longitude
+						},
 						radius: 20
-					  });
-					
-					guruMarkerArray.push(markerGuru);
-					guruCircleArray.push(guruCircle);
+					} );
+
+					guruMarkerArray.push( markerGuru );
+					guruCircleArray.push( guruCircle );
 				}
-				
+
 
 				function updateMaps() {
-					
+
 					if ( i != 0 ) {
 						clearOverlays();
 					} else {
 						i = i + 1;
 					}
-					
-					
-						
-					navigator.geolocation.getCurrentPosition(showPosition);
-					
-					
-					
-					
+
+
+
+					navigator.geolocation.getCurrentPosition( showPosition );
+
+
+
+
 					var triangleCoords = [ {
 							lat: -6.930547,
 							lng: 107.654587
@@ -437,7 +445,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 								var hasil = google.maps.geometry.poly.containsLocation( myLatlng, bermudaTriangle ) ? "didalam" : "diluar";
 
 								if ( hasil == "diluar" && marker.attr( "status" ) == 0 ) {
-									
+
 									$.ajax( {
 										type: 'post',
 										url: 'update_notifikasi.php',
@@ -453,7 +461,7 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 									} );
 
 								} else if ( hasil == "didalam" && marker.attr( "status" ) == 2 ) {
-									
+
 									$.ajax( {
 										type: 'post',
 										url: 'update_notifikasi.php',
@@ -467,11 +475,11 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 											load_notification();
 										}
 									} );
-									
+
 								}
 
 								markersArray.push( overlay );
-								
+
 							} );
 					} );
 				}
@@ -523,6 +531,43 @@ if ( isset( $_SESSION[ 's_nuptk' ] ) ) {
 			</div>
 		</div>
 		<script type="text/javascript">
+			$( document ).on( 'click', '.konfirmasi', function () {
+				//menampilkan jumlah status 1
+				$.ajax( {
+					type: 'post',
+					url: 'update_status_notifikasi.php',
+					data: {
+						command: "update-konfirmasi",
+						idNotifikasi: "5",
+						nis: "112",
+						waktu: "2018-07-16 18:54:20"
+					},
+					success: function ( data ) {
+
+					}
+				} );
+			} );
+			
+			$( document ).on( 'click', '.ketemu', function () {
+				//menampilkan jumlah status 1
+				var id_notifikasi = document.getElementById("id_notifikasi").innerHTML;
+				var nis_siswa = document.getElementById("nis").innerHTML;
+				$.ajax( {
+					type: 'post',
+					url: 'update_status_notifikasi.php',
+					data: {
+						command: "update-ketemu",
+						idNotifikasi : id_notifikasi,
+						nis : nis_siswa
+//						waktu : "",
+//						lat : "",
+//						longtitude : ""
+					},
+					success: function ( data ) {
+					}
+				} );
+			} );
+			
 			$( document ).ready( function () {
 				$( '#ubah_pw' ).on( 'show.bs.modal', function ( e ) {
 					var idx = $( e.relatedTarget ).data( 'id' ); //harus tetap id, jika tidak akan data tak akan terambil

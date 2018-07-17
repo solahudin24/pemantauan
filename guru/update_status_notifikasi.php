@@ -3,9 +3,6 @@ require( '../koneksi.php' );
 $link = koneksi_db();
 if(isset($_POST['command'])){
 	if($_POST['command'] == "update-konfirmasi"){
-		?>
-<script>alert('1');</script>
-<?php
 		$nis = $_POST['nis'];
 		$waktu = $_POST['waktu'];
 		$id_notifikasi = $_POST['idNotifikasi'];
@@ -18,12 +15,18 @@ if(isset($_POST['command'])){
 		
 	}else if($_POST['command'] == "update-ketemu"){
 		$nis = $_POST['nis'];
-		$waktu = $_POST['waktu'];
 		$id_notifikasi = $_POST['idNotifikasi'];
-		$lat = $_POST['lat'];
-		$longtitude = $_POST['longtitude'];
 		
+		$query_ambil_lat_long = "select * from tb_siswa where nis='$nis'";
+		$result_ambil_lat_long = mysqli_query($link,$query_ambil_lat_long);
+		$data_lat_long = mysqli_fetch_array($result_ambil_lat_long);
 		
+		$query_waktu_kabur = "select * from tb_notifikasi where id_notifikasi='$id_notifikasi'";
+		$result_waktu_kabur = mysqli_query($link,$query_waktu_kabur);
+		$data_waktu_kabur = mysqli_fetch_array($result_waktu_kabur);
+		
+		$query_update_laporan = "update tb_laporan set waktu_ketemu=CURRENT_TIMESTAMP , lat='".$data_lat_long['lat']."', longtitude='".$data_lat_long['longitude']."' where waktu_kabur='".$data_waktu_kabur['waktu']."' ";
+		$result_update_laporan = mysqli_query($link,$query_update_laporan);
 		
 	}
 }

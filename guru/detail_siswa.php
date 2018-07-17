@@ -18,7 +18,7 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 			</tr>
 			<tr>
 				<td class="col-md-4">NIS</td>
-				<td class="col-md-8">
+				<td class="col-md-8" id="nis">
 					<?php echo $data['nis']; ?>
 				</td>
 			</tr>
@@ -108,14 +108,14 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 			$result_konfirmasi = mysqli_query( $link, $query_konfirmasi );
 			$ketemu = mysqli_num_rows( $result_konfirmasi );
 			$data_konfirmasi = mysqli_fetch_array( $result_konfirmasi );
-			if ( $ketemu > 0 && $data_konfirmasi[ 'status' ] == 0 && $data['status']==2) {
+			if ( $ketemu > 0 && $data_konfirmasi['status']==0 && $data['status']==2) {
 				?>
-
-			<button type="button" class="btn btn-info konfirmasi">Konfirmasi</button>
+				<button type="button" class="btn btn-info konfirmasi" onClick="return confirm('Apakah anda yakin konfirmasi?');">Konfirmasi</button>
 			<?php
 			} else if ( $ketemu > 0 && $data_konfirmasi[ 'status' ] == 1 && $data['status']==2) {
 				?>
-			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#ketemu" onClick="return confirm('Apakah anda yakin ketemu?');">Ketemu</button>
+				<p hidden id="id_notifikasi"><?php echo $data_konfirmasi['id_notifikasi']; ?></p>
+				<button type="button" class="btn btn-info ketemu" onClick="return confirm('Apakah anda yakin ketemu?');">Ketemu</button>
 			<?php
 			}
 			?>
@@ -125,39 +125,3 @@ if ( isset( $_POST[ 'nis' ] ) ) {
 	
 }
 ?>
-<script>
-	$( document ).on( 'click', '.konfirmasi', function () {
-		//menampilkan jumlah status 1
-		$.ajax( {
-			type: 'post',
-			url: 'update_status_notifikasi.php',
-			data: {
-				command: "update-konfirmasi",
-				idNotifikasi : "5",
-				nis : "112",
-				waktu : "2018-07-16 18:54:20"
-			},
-			success: function ( data ) {
-				
-			}
-		} );
-	} );
-	
-	$( document ).on( 'click', '#ketemu', function () {
-		//menampilkan jumlah status 1
-		$.ajax( {
-			type: 'post',
-			url: 'update_status_notifikasi.php',
-			data: {
-				command: "update-ketemu",
-				idNotifikasi : "<?php echo $data_konfirmasi['id_notifikasi']; ?>",
-				nis : "<?php echo $nis; ?>",
-				waktu : "<?php echo $data_konfirmasi['waktu']; ?>",
-				lat : "<?php echo $data['lat']; ?>",
-				longtitude : "<?php echo $data['longtitude']; ?>"
-			},
-			success: function ( data ) {
-			}
-		} );
-	} );
-</script>
